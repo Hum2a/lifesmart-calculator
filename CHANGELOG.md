@@ -18,7 +18,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## Release Types
+### [v1.0.0] - 2025-10-02
+
+### ✨ Added New features and enhancements
+- Update project to version 1.0.0 with comprehensive configuration and assets. Added essential files including .htaccess for server settings, browserconfig.xml, favicon, index.html, manifest.json, privacy policy, terms of service, and sitemap. Enhanced project metadata in package.json for better visibility and organization. `+463, -2`
+- Refactor App component to use CreditCardCalculator and add custom styles for sliders and input fields. Introduce CreditCardCalculator component with functionality for calculating credit card interest and investment growth over time. `+339, -26`
+- Update package dependencies and version to 1.0.0. Added chart.js and react-chartjs-2 for enhanced charting capabilities, and included license information for new dependencies. `+44, -3`
+- Integrate InvestmentChart component into CreditCardCalculator for visualizing investment growth. Remove unused investment calculation logic from CreditCardCalculator and streamline input handling. Update UI elements for clarity and organization. `+246, -62`
+- Refactor CreditCardCalculator to handle null values for investment inputs and improve input validation. Update InvestmentChart to display a message prompting users to enter values for customization. `+44, -17`
+- Add release management scripts and changelog documentation `+971`
+- Enhance CreditCardCalculator and InvestmentChart with dark mode support and animations `+903, -252`
+- Add CI/CD workflows and configuration files for comprehensive project automation `+2422, -21`
+- Enhance documentation and user experience for LifeSmart Calculator `+8996, -105`
+
+### 🔧 Changed Maintenance tasks and chores
+- Init `+18778`
+
+### 🗑️ Removed Removed features and cleanup
+- Remove 'public' directory from .gitignore to allow tracking of generated files. `-1`
+
+**Total Changes:** 11 commits
+
+---
+
+# Release Types
 
 ### Major Version (X.0.0)
 - Breaking changes that require user action
