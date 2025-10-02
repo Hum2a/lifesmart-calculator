@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "path": "./build/static/js/*.js",
+      "maxSize": "150 kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./build/static/css/*.css",
+      "maxSize": "10 kB",
+      "compression": "gzip"
+    }
+  ],
+  "ci": {
+    "trackBranches": ["main", "develop"],
+    "disable": false
+  }
+}
