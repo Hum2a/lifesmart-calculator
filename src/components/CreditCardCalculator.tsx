@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
+import InvestmentChart from './InvestmentChart';
 
 interface CalculatorInputs {
   monthlySpend: number;
@@ -29,19 +30,6 @@ const CreditCardCalculator: React.FC = () => {
   const annualInterest = carriedBalance * (inputs.apr / 100);
   const monthlySavings = annualInterest / 12;
 
-  // Investment calculation (compound interest with monthly contributions)
-  const calculateInvestmentGrowth = useCallback((principal: number, monthlyContribution: number, annualRate: number, years: number) => {
-    const monthlyRate = annualRate / 100 / 12;
-    const totalMonths = years * 12;
-
-    // Future value of annuity formula
-    const futureValue = monthlyContribution * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate);
-
-    return Math.round(futureValue);
-  }, []);
-
-  const investment5Year = calculateInvestmentGrowth(0, monthlySavings, investmentInputs.returnRate, 5);
-  const investment10Year = calculateInvestmentGrowth(0, monthlySavings, investmentInputs.returnRate, 10);
 
   const handleInputChange = (field: keyof CalculatorInputs, value: number) => {
     setInputs(prev => ({ ...prev, [field]: value }));
@@ -54,7 +42,6 @@ const CreditCardCalculator: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Stop paying card interest — invest it instead
@@ -66,12 +53,10 @@ const CreditCardCalculator: React.FC = () => {
           </p>
         </div>
 
-        {/* Input Section */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Your current card — inputs</h2>
 
           <div className="space-y-6">
-            {/* Monthly Spend */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Average monthly spend ($)
@@ -103,7 +88,6 @@ const CreditCardCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Balance Carried Percent */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Average balance carried (not fully repaid)
@@ -137,7 +121,6 @@ const CreditCardCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* APR */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 APR (%)
@@ -169,7 +152,6 @@ const CreditCardCalculator: React.FC = () => {
             </div>
           </div>
 
-          {/* Formula */}
           <div className="mt-6 pt-4 border-t border-gray-200">
             <p className="text-sm text-gray-500">
               Annual interest = (APR/100 ÷ 365) x days carried x carried balance x 12
@@ -177,12 +159,10 @@ const CreditCardCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Annual Cost Comparison */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Annual Cost Comparison</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Standard Credit Card */}
             <div className="border-l-4 border-red-500 pl-4">
               <div className="flex items-center mb-2">
                 <h3 className="text-lg font-medium text-gray-900">Standard Credit Card</h3>
@@ -197,7 +177,6 @@ const CreditCardCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* SPZero Card */}
             <div className="border-l-4 border-green-500 pl-4">
               <div className="flex items-center mb-2">
                 <h3 className="text-lg font-medium text-gray-900">SPZero Card</h3>
@@ -217,18 +196,10 @@ const CreditCardCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Investment Calculator */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Investment Growth Over Time</h2>
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Investment Calculator Settings</h2>
 
-          <div className="mb-6">
-            <p className="text-lg text-gray-700 mb-4">
-              If you invest your annual savings of <span className="font-bold">${annualInterest.toLocaleString()} (${monthlySavings.toFixed(2)}/month)</span> at a conservative <span className="font-bold">{investmentInputs.returnRate}% annual return</span>:
-            </p>
-          </div>
-
-          {/* Investment Controls */}
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Time Period (Years)</label>
               <input
@@ -257,35 +228,13 @@ const CreditCardCalculator: React.FC = () => {
               />
             </div>
           </div>
-
-          {/* Investment Results */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">After 5 Years</h3>
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                ${investment5Year.toLocaleString()}
-              </div>
-              <div className="text-sm text-green-700">
-                +{((investment5Year / annualInterest - 1) * 100).toFixed(1)}% growth
-              </div>
-            </div>
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">After 10 Years</h3>
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                ${investment10Year.toLocaleString()}
-              </div>
-              <div className="text-sm text-green-700">
-                +{((investment10Year / annualInterest - 1) * 100).toFixed(1)}% growth
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
-              * Assumes monthly contributions with {investmentInputs.returnRate}% annual return, compounded monthly. Past performance does not guarantee future results.
-            </p>
-          </div>
         </div>
+
+        <InvestmentChart
+          monthlyContribution={monthlySavings}
+          annualRate={investmentInputs.returnRate}
+          maxYears={investmentInputs.timePeriod}
+        />
       </div>
     </div>
   );
