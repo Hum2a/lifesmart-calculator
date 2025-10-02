@@ -2,7 +2,15 @@
   "name": "lifesmart-calculator",
   "version": "1.0.0",
   "description": "Professional financial and life planning calculator tool built with React, TypeScript, and Tailwind CSS",
-  "keywords": ["calculator", "financial", "planning", "react", "typescript", "tailwind", "pwa"],
+  "keywords": [
+    "calculator",
+    "financial",
+    "planning",
+    "react",
+    "typescript",
+    "tailwind",
+    "pwa"
+  ],
   "author": "LifeSmart Calculator Team",
   "license": "MIT",
   "homepage": "https://lifesmart-calculator.com",
@@ -19,7 +27,9 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "chart.js": "^4.5.0",
     "react": "^19.2.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
