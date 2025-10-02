@@ -1,0 +1,83 @@
+{
+  "short_name": "LifeSmart Calc",
+  "name": "LifeSmart Calculator - Professional Financial & Life Planning Tool",
+  "description": "Advanced calculator tool for financial planning, life calculations, and smart decision making. Built with modern technology for accuracy and ease of use.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#3B82F6",
+  "background_color": "#FFFFFF",
+  "categories": ["finance", "productivity", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "LifeSmart Calculator Desktop View"
+    },
+    {
+      "src": "screenshot-mobile.png",
+      "type": "image/png",
+      "sizes": "390x844",
+      "form_factor": "narrow",
+      "label": "LifeSmart Calculator Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Financial Calculator",
+      "short_name": "Financial",
+      "description": "Quick access to financial planning tools",
+      "url": "/financial",
+      "icons": [
+        {
+          "src": "shortcut-financial.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Life Planning",
+      "short_name": "Life Plan",
+      "description": "Access life planning calculators",
+      "url": "/life-planning",
+      "icons": [
+        {
+          "src": "shortcut-life.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
