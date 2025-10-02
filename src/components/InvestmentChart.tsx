@@ -192,6 +192,9 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
           at a conservative{' '}
           <span className="font-bold text-green-600">{annualRate}% annual return</span>:
         </p>
+        <p className="text-sm text-gray-500 italic">
+          Enter values above to customize the time period and return rate
+        </p>
       </div>
 
       {/* Chart Container */}

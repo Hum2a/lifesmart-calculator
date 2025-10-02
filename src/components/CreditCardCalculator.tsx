@@ -8,8 +8,8 @@ interface CalculatorInputs {
 }
 
 interface InvestmentInputs {
-  timePeriod: number;
-  returnRate: number;
+  timePeriod: number | null;
+  returnRate: number | null;
 }
 
 const CreditCardCalculator: React.FC = () => {
@@ -35,7 +35,7 @@ const CreditCardCalculator: React.FC = () => {
     setInputs(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleInvestmentChange = (field: keyof InvestmentInputs, value: number) => {
+  const handleInvestmentChange = (field: keyof InvestmentInputs, value: number | null) => {
     setInvestmentInputs(prev => ({ ...prev, [field]: value }));
   };
 
@@ -66,20 +66,28 @@ const CreditCardCalculator: React.FC = () => {
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                 <input
                   type="number"
-                  value={inputs.monthlySpend}
-                  onChange={(e) => handleInputChange('monthlySpend', Number(e.target.value))}
+                  value={inputs.monthlySpend || ''}
+                  onChange={(e) => {
+                    const value = e.target.value === '' ? 0 : Number(e.target.value);
+                    handleInputChange('monthlySpend', Math.max(0, value));
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === '' || Number(e.target.value) < 0) {
+                      handleInputChange('monthlySpend', 0);
+                    }
+                  }}
                   className="w-full pl-8 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="2000"
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex flex-col">
                   <button
-                    onClick={() => handleInputChange('monthlySpend', inputs.monthlySpend + 100)}
+                    onClick={() => handleInputChange('monthlySpend', (inputs.monthlySpend || 0) + 100)}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     ▲
                   </button>
                   <button
-                    onClick={() => handleInputChange('monthlySpend', Math.max(0, inputs.monthlySpend - 100))}
+                    onClick={() => handleInputChange('monthlySpend', Math.max(0, (inputs.monthlySpend || 0) - 100))}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     ▼
@@ -128,21 +136,29 @@ const CreditCardCalculator: React.FC = () => {
               <div className="relative">
                 <input
                   type="number"
-                  value={inputs.apr}
-                  onChange={(e) => handleInputChange('apr', Number(e.target.value))}
+                  value={inputs.apr || ''}
+                  onChange={(e) => {
+                    const value = e.target.value === '' ? 0 : Number(e.target.value);
+                    handleInputChange('apr', Math.max(0, value));
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === '' || Number(e.target.value) < 0) {
+                      handleInputChange('apr', 0);
+                    }
+                  }}
                   className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="23"
                 />
                 <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
                 <div className="absolute right-8 top-1/2 transform -translate-y-1/2 flex flex-col">
                   <button
-                    onClick={() => handleInputChange('apr', inputs.apr + 0.1)}
+                    onClick={() => handleInputChange('apr', (inputs.apr || 0) + 0.1)}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     ▲
                   </button>
                   <button
-                    onClick={() => handleInputChange('apr', Math.max(0, inputs.apr - 0.1))}
+                    onClick={() => handleInputChange('apr', Math.max(0, (inputs.apr || 0) - 0.1))}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     ▼
@@ -204,11 +220,15 @@ const CreditCardCalculator: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Time Period (Years)</label>
               <input
                 type="number"
-                value={investmentInputs.timePeriod}
-                onChange={(e) => handleInvestmentChange('timePeriod', Number(e.target.value))}
+                value={investmentInputs.timePeriod || ''}
+                onChange={(e) => {
+                  const value = e.target.value === '' ? null : Number(e.target.value);
+                  handleInvestmentChange('timePeriod', value);
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 min="1"
                 max="30"
+                placeholder="5"
                 aria-label="Investment time period in years"
                 title="Enter the number of years for investment growth"
               />
@@ -217,12 +237,16 @@ const CreditCardCalculator: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Return Rate (%)</label>
               <input
                 type="number"
-                value={investmentInputs.returnRate}
-                onChange={(e) => handleInvestmentChange('returnRate', Number(e.target.value))}
+                value={investmentInputs.returnRate || ''}
+                onChange={(e) => {
+                  const value = e.target.value === '' ? null : Number(e.target.value);
+                  handleInvestmentChange('returnRate', value);
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 min="0"
                 max="20"
                 step="0.1"
+                placeholder="9"
                 aria-label="Annual return rate percentage"
                 title="Enter the expected annual return rate as a percentage"
               />
@@ -232,8 +256,8 @@ const CreditCardCalculator: React.FC = () => {
 
         <InvestmentChart
           monthlyContribution={monthlySavings}
-          annualRate={investmentInputs.returnRate}
-          maxYears={investmentInputs.timePeriod}
+          annualRate={investmentInputs.returnRate ?? 9}
+          maxYears={investmentInputs.timePeriod ?? 10}
         />
       </div>
     </div>
