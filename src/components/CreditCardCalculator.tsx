@@ -66,19 +66,11 @@ const CreditCardCalculator: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen transition-all duration-1000 ${
+    <div className={`min-h-screen transition-all duration-500 ${
       darkMode
-        ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900'
-        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100'
+        ? 'bg-gray-900'
+        : 'bg-gray-50'
     } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-pink-400/20 to-rose-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        <div className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full blur-2xl animate-bounce delay-700"></div>
-        <div className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-br from-green-400/20 to-emerald-500/20 rounded-full blur-xl animate-ping delay-1000"></div>
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto py-8 px-4">
         {/* Header with Dark Mode Toggle */}
@@ -86,34 +78,28 @@ const CreditCardCalculator: React.FC = () => {
           <div className="flex justify-between items-center mb-8">
             <div className="w-16"></div> {/* Spacer */}
             <div className="flex-1">
-              <h1 className={`text-4xl md:text-6xl font-black bg-gradient-to-r ${
-                darkMode
-                  ? 'from-white via-blue-200 to-purple-200'
-                  : 'from-gray-900 via-blue-600 to-purple-600'
-              } bg-clip-text text-transparent mb-4 animate-fade-in-up`}>
-                Stop paying card interest — invest it instead
+              <h1 className={`text-3xl md:text-4xl font-bold mb-4 ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                Credit Card Interest vs Investment Calculator
               </h1>
-              <p className={`text-lg md:text-xl font-medium max-w-4xl mx-auto ${
+              <p className={`text-base md:text-lg max-w-4xl mx-auto ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
-              } animate-fade-in-up delay-200`}>
-                Quickly estimate your annual interest on a typical credit card vs{' '}
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  darkMode
-                    ? 'bg-gray-700 text-gray-200 border border-gray-600'
-                    : 'bg-gray-200 text-gray-800'
-                }`}>SP Zero (0% APR)</span>{' '}
-                and see what investing that money at 9% could grow to.
+              }`}>
+                Calculate your annual credit card interest costs and compare them to potential investment returns.
+                Optimize your financial strategy by understanding the true cost of carrying credit card debt.
               </p>
             </div>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`w-16 h-16 rounded-2xl transition-all duration-500 transform hover:scale-110 hover:rotate-12 ${
+              className={`w-12 h-12 rounded-lg transition-all duration-300 ${
                 darkMode
-                  ? 'bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/25'
-                  : 'bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg shadow-gray-800/25'
+                  ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400'
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
               }`}
+              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              <div className="flex items-center justify-center text-2xl">
+              <div className="flex items-center justify-center text-lg">
                 {darkMode ? '☀️' : '🌙'}
               </div>
             </button>
@@ -121,40 +107,35 @@ const CreditCardCalculator: React.FC = () => {
         </div>
 
         {/* Main Calculator Card */}
-        <div className={`group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 hover:shadow-3xl hover:-translate-y-2 ${
+        <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
           darkMode
-            ? 'bg-gray-800/80 backdrop-blur-xl border border-gray-700/50'
-            : 'bg-white/80 backdrop-blur-xl border border-white/20'
+            ? 'bg-gray-800 border-gray-700'
+            : 'bg-white border-gray-200'
         }`}>
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
           <div className="relative z-10 p-8 xl:p-10">
             <div className="flex items-center mb-8">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl mr-4 shadow-lg`}>
+              <div className={`w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mr-4`}>
                 💳
               </div>
-              <h2 className={`text-3xl font-bold ${
+              <h2 className={`text-2xl font-semibold ${
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>
-                Your current card — inputs
+                Credit Card Parameters
               </h2>
             </div>
 
             <div className="space-y-8">
               {/* Monthly Spend */}
               <div className="group/input">
-                <label className={`block text-sm font-semibold mb-3 transition-colors duration-300 ${
+                <label className={`block text-sm font-medium mb-2 ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Average monthly spend ($)
-                  <span className={`ml-2 text-xs ${
-                    darkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>(e.g. 2,000)</span>
+                  Average Monthly Spending ($)
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <span className={`text-2xl ${
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className={`text-lg ${
                       darkMode ? 'text-gray-400' : 'text-gray-500'
                     }`}>$</span>
                   </div>
@@ -170,40 +151,22 @@ const CreditCardCalculator: React.FC = () => {
                         handleInputChange('monthlySpend', 0);
                       }
                     }}
-                    className={`w-full pl-12 pr-20 py-4 text-xl font-medium rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 ${
+                    className={`w-full pl-8 pr-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                       darkMode
-                        ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700'
-                        : 'bg-white/70 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
-                    } backdrop-blur-sm`}
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                    } rounded-md`}
                     placeholder="2000"
                   />
-                  <div className="absolute inset-y-0 right-0 pr-4 flex flex-col">
-                    <button
-                      onClick={() => handleInputChange('monthlySpend', (inputs.monthlySpend || 0) + 100)}
-                      className={`text-lg transition-colors duration-200 ${
-                        darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-600'
-                      }`}
-                    >
-                      ▲
-                    </button>
-                    <button
-                      onClick={() => handleInputChange('monthlySpend', Math.max(0, (inputs.monthlySpend || 0) - 100))}
-                      className={`text-lg transition-colors duration-200 ${
-                        darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-600'
-                      }`}
-                    >
-                      ▼
-                    </button>
-                  </div>
                 </div>
               </div>
 
               {/* Balance Carried */}
               <div className="group/input">
-                <label className={`block text-sm font-semibold mb-3 transition-colors duration-300 ${
+                <label className={`block text-sm font-medium mb-2 ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Average balance carried (not fully repaid)
+                  Average Balance Carried Forward (%)
                 </label>
                 <div className="flex items-center space-x-4">
                   <span className={`text-sm font-medium ${
@@ -233,12 +196,14 @@ const CreditCardCalculator: React.FC = () => {
                     darkMode ? 'text-gray-400' : 'text-gray-500'
                   }`}>100%</span>
                 </div>
-                <div className="mt-3 p-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700/50 dark:to-gray-600/50">
-                  <span className={`text-sm font-semibold ${
+                <div className={`mt-3 p-3 rounded-md ${
+                  darkMode ? 'bg-gray-700' : 'bg-gray-50'
+                }`}>
+                  <span className={`text-sm font-medium ${
                     darkMode ? 'text-gray-200' : 'text-gray-700'
                   }`}>
-                    Carried: <span className="text-blue-600 dark:text-blue-400">{inputs.balanceCarriedPercent}%</span> →
-                    <span className={`ml-2 px-3 py-1 rounded-full text-sm font-bold ${
+                    Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
+                    <span className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
                       darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
                     }`}>
                       ${carriedBalance.toLocaleString()}
@@ -249,10 +214,10 @@ const CreditCardCalculator: React.FC = () => {
 
               {/* APR */}
               <div className="group/input">
-                <label className={`block text-sm font-semibold mb-3 transition-colors duration-300 ${
+                <label className={`block text-sm font-medium mb-2 ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  APR (%)
+                  Annual Percentage Rate (APR %)
                 </label>
                 <div className="relative">
                   <input
@@ -267,34 +232,16 @@ const CreditCardCalculator: React.FC = () => {
                         handleInputChange('apr', 0);
                       }
                     }}
-                    className={`w-full pl-4 pr-20 py-4 text-xl font-medium rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/20 focus:border-green-500 ${
+                    className={`w-full pl-4 pr-12 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                       darkMode
-                        ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700'
-                        : 'bg-white/70 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
-                    } backdrop-blur-sm`}
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                    } rounded-md`}
                     placeholder="23"
                   />
-                  <span className={`absolute right-12 top-1/2 transform -translate-y-1/2 text-sm font-medium ${
+                  <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${
                     darkMode ? 'text-gray-400' : 'text-gray-500'
                   }`}>%</span>
-                  <div className="absolute inset-y-0 right-0 pr-4 flex flex-col">
-                    <button
-                      onClick={() => handleInputChange('apr', (inputs.apr || 0) + 0.1)}
-                      className={`text-lg transition-colors duration-200 ${
-                        darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-600'
-                      }`}
-                    >
-                      ▲
-                    </button>
-                    <button
-                      onClick={() => handleInputChange('apr', Math.max(0, (inputs.apr || 0) - 0.1))}
-                      className={`text-lg transition-colors duration-200 ${
-                        darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-600'
-                      }`}
-                    >
-                      ▼
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -312,107 +259,113 @@ const CreditCardCalculator: React.FC = () => {
         </div>
 
         {/* Cost Comparison Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mt-8">
+        <div className="grid md:grid-cols-2 gap-6 mt-8">
           {/* Standard Credit Card */}
-          <div className={`group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 hover:shadow-3xl hover:-translate-y-2 ${
+          <div className={`relative overflow-hidden rounded-lg shadow-md border ${
             darkMode
-              ? 'bg-gray-800/80 backdrop-blur-xl border border-gray-700/50'
-              : 'bg-white/80 backdrop-blur-xl border border-white/20'
+              ? 'bg-gray-800 border-gray-700'
+              : 'bg-white border-gray-200'
           }`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-pink-500/5 to-rose-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div className="relative z-10 p-8">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center text-white text-2xl mr-4 shadow-lg">
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 rounded bg-red-600 flex items-center justify-center text-white text-sm mr-3">
                   ⚠️
                 </div>
                 <div>
-                  <h3 className={`text-xl font-bold ${
+                  <h3 className={`text-lg font-semibold ${
                     darkMode ? 'text-white' : 'text-gray-900'
                   }`}>Standard Credit Card</h3>
-                  <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-xs px-3 py-1 rounded-full font-semibold">
+                  <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-xs px-2 py-1 rounded font-medium">
                     With Interest
                   </span>
                 </div>
               </div>
-              <div className={`space-y-2 text-sm mb-6 ${
+              <div className={`space-y-1 text-sm mb-4 ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                <p>Monthly Spend: <span className="font-semibold">${inputs.monthlySpend.toLocaleString()}</span></p>
-                <p>Balance Carried: <span className="font-semibold">${carriedBalance.toLocaleString()}</span></p>
+                <p>Monthly Spend: <span className="font-medium">${inputs.monthlySpend.toLocaleString()}</span></p>
+                <p>Balance Carried: <span className="font-medium">${carriedBalance.toLocaleString()}</span></p>
               </div>
-              <div className={`text-4xl font-black ${
+              <div className={`text-3xl font-bold ${
                 isAnimating ? 'animate-pulse' : ''
               } text-red-600`}>
                 ${annualInterest.toLocaleString()}
+              </div>
+              <div className={`text-xs mt-1 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                Annual Interest Cost
               </div>
             </div>
           </div>
 
           {/* SPZero Card */}
-          <div className={`group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 hover:shadow-3xl hover:-translate-y-2 ${
+          <div className={`relative overflow-hidden rounded-lg shadow-md border ${
             darkMode
-              ? 'bg-gray-800/80 backdrop-blur-xl border border-gray-700/50'
-              : 'bg-white/80 backdrop-blur-xl border border-white/20'
+              ? 'bg-gray-800 border-gray-700'
+              : 'bg-white border-gray-200'
           }`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div className="relative z-10 p-8">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-2xl mr-4 shadow-lg">
-                  💚
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 rounded bg-green-600 flex items-center justify-center text-white text-sm mr-3">
+                  ✓
                 </div>
                 <div>
-                  <h3 className={`text-xl font-bold ${
+                  <h3 className={`text-lg font-semibold ${
                     darkMode ? 'text-white' : 'text-gray-900'
                   }`}>SPZero Card</h3>
-                  <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-xs px-3 py-1 rounded-full font-semibold">
+                  <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded font-medium">
                     0% APR
                   </span>
                 </div>
               </div>
-              <div className={`space-y-2 text-sm mb-6 ${
+              <div className={`space-y-1 text-sm mb-4 ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                <p>Monthly Spend: <span className="font-semibold">${inputs.monthlySpend.toLocaleString()}</span></p>
-                <p>Balance Carried: <span className="font-semibold">${carriedBalance.toLocaleString()}</span></p>
+                <p>Monthly Spend: <span className="font-medium">${inputs.monthlySpend.toLocaleString()}</span></p>
+                <p>Balance Carried: <span className="font-medium">${carriedBalance.toLocaleString()}</span></p>
               </div>
-              <div className="text-4xl font-black text-green-600 mb-2">
+              <div className="text-3xl font-bold text-green-600 mb-1">
                 $0
               </div>
-              <div className={`text-sm ${
+              <div className={`text-xs ${
                 darkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
-                <span className="line-through">${annualInterest.toLocaleString()}</span> saved
+                Annual Interest Cost
+              </div>
+              <div className={`text-sm mt-2 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
+                <span className="line-through">${annualInterest.toLocaleString()}</span> saved annually
               </div>
             </div>
           </div>
         </div>
 
         {/* Investment Calculator */}
-        <div className={`group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 hover:shadow-3xl hover:-translate-y-2 mt-8 ${
+        <div className={`relative overflow-hidden rounded-lg shadow-lg border mt-8 ${
           darkMode
-            ? 'bg-gray-800/80 backdrop-blur-xl border border-gray-700/50'
-            : 'bg-white/80 backdrop-blur-xl border border-white/20'
+            ? 'bg-gray-800 border-gray-700'
+            : 'bg-white border-gray-200'
         }`}>
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-          <div className="relative z-10 p-8 xl:p-10">
-            <div className="flex items-center mb-8">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-2xl mr-4 shadow-lg`}>
+          <div className="p-8">
+            <div className="flex items-center mb-6">
+              <div className={`w-10 h-10 rounded bg-emerald-600 flex items-center justify-center text-white text-lg mr-4`}>
                 📈
               </div>
-              <h2 className={`text-3xl font-bold ${
+              <h2 className={`text-2xl font-semibold ${
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>
-                Investment Calculator Settings
+                Investment Growth Calculator
               </h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="group/input">
-                <label className={`block text-sm font-semibold mb-3 transition-colors duration-300 ${
+                <label className={`block text-sm font-medium mb-2 ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Time Period (Years)
+                  Investment Time Period (Years)
                 </label>
                 <input
                   type="number"
@@ -421,11 +374,11 @@ const CreditCardCalculator: React.FC = () => {
                     const value = e.target.value === '' ? null : Number(e.target.value);
                     handleInvestmentChange('timePeriod', value);
                   }}
-                  className={`w-full px-4 py-4 text-xl font-medium rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 ${
+                  className={`w-full px-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 ${
                     darkMode
-                      ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700'
-                      : 'bg-white/70 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
-                  } backdrop-blur-sm`}
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                  } rounded-md`}
                   min="1"
                   max="30"
                   placeholder="5"
@@ -434,10 +387,10 @@ const CreditCardCalculator: React.FC = () => {
                 />
               </div>
               <div className="group/input">
-                <label className={`block text-sm font-semibold mb-3 transition-colors duration-300 ${
+                <label className={`block text-sm font-medium mb-2 ${
                   darkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Return Rate (%)
+                  Expected Annual Return Rate (%)
                 </label>
                 <input
                   type="number"
@@ -446,11 +399,11 @@ const CreditCardCalculator: React.FC = () => {
                     const value = e.target.value === '' ? null : Number(e.target.value);
                     handleInvestmentChange('returnRate', value);
                   }}
-                  className={`w-full px-4 py-4 text-xl font-medium rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-teal-500/20 focus:border-teal-500 ${
+                  className={`w-full px-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 ${
                     darkMode
-                      ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700'
-                      : 'bg-white/70 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
-                  } backdrop-blur-sm`}
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                  } rounded-md`}
                   min="0"
                   max="20"
                   step="0.1"

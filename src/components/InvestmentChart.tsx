@@ -113,7 +113,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
     responsive: true,
     maintainAspectRatio: false,
     animation: {
-      duration: 2500,
+      duration: 1000,
       easing: 'easeInOutQuart' as const,
     },
     plugins: {
@@ -131,14 +131,14 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
       },
       title: {
         display: true,
-        text: `Investment Growth Over ${maxYears} Years`,
+        text: `Investment Growth Projection - ${maxYears} Years`,
         font: {
-          size: 20,
+          size: 16,
           weight: 'bold' as const,
         },
-        color: '#1F2937',
+        color: '#374151',
         padding: {
-          bottom: 30,
+          bottom: 20,
         },
       },
       tooltip: {
@@ -151,7 +151,10 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         displayColors: true,
         callbacks: {
           title: (context: any) => {
-            return `Year ${context[0].label}`;
+            if (context && context.length > 0 && context[0]) {
+              return `Year ${context[0].label}`;
+            }
+            return 'Investment Data';
           },
           label: (context: any) => {
             const datasetLabel = context.dataset.label;
@@ -159,11 +162,14 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
             return `${datasetLabel}: $${value.toLocaleString()}`;
           },
           afterLabel: (context: any) => {
-            const year = parseInt(context[0].label);
-            const invested = totalInvested[year];
-            const value = data[year];
-            const gains = value - invested;
-            return `Gains: $${gains.toLocaleString()}`;
+            if (context && context.length > 0 && context[0]) {
+              const year = parseInt(context[0].label);
+              const invested = totalInvested[year] || 0;
+              const value = data[year] || 0;
+              const gains = value - invested;
+              return `Gains: $${gains.toLocaleString()}`;
+            }
+            return '';
           },
         },
       },
@@ -234,37 +240,31 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
   };
 
   return (
-    <div className={`group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 hover:shadow-3xl hover:-translate-y-2 ${
+    <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
       isLoaded ? 'opacity-100' : 'opacity-0'
     }`}>
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-      <div className="relative z-10 p-8 xl:p-10">
-        <div className="flex items-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-2xl mr-4 shadow-lg">
+      <div className="p-8">
+        <div className="flex items-center mb-6">
+          <div className="w-10 h-10 rounded bg-emerald-600 flex items-center justify-center text-white text-lg mr-4">
             📈
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Investment Growth Projection
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              Investment Growth Analysis
             </h2>
-            <p className="text-lg text-gray-600">
-              If you invest your annual savings of{' '}
-              <span className="font-bold text-emerald-600">
-                ${(monthlyContribution * 12).toLocaleString()} (${monthlyContribution.toFixed(2)}/month)
+            <p className="text-base text-gray-600">
+              Projected growth investing{' '}
+              <span className="font-semibold text-emerald-600">
+                ${(monthlyContribution * 12).toLocaleString()} annually (${monthlyContribution.toFixed(2)}/month)
               </span>{' '}
-              at a conservative{' '}
-              <span className="font-bold text-teal-600">{annualRate}% annual return</span>:
+              at{' '}
+              <span className="font-semibold text-teal-600">{annualRate}% annual return</span>
             </p>
           </div>
         </div>
 
         {/* Chart Container */}
         <div className="relative h-96 w-full mb-8">
-          <div className={`absolute inset-0 bg-gradient-to-br from-white/80 to-gray-50/80 rounded-2xl backdrop-blur-sm ${
-            isAnimating ? 'animate-pulse' : ''
-          }`}></div>
           <div className="relative z-10 h-full">
             <Line data={chartData} options={options} />
           </div>
@@ -272,106 +272,89 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
         {/* Key Metrics Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className={`group/card relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:scale-105 ${
-            isAnimating ? 'animate-bounce' : ''
-          }`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-600/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10 text-center">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xl mx-auto mb-3">
-                💰
-              </div>
-              <div className="text-3xl font-black text-blue-600 mb-2">
-                ${finalInvested.toLocaleString()}
-              </div>
-              <div className="text-sm font-semibold text-blue-900 mb-1">Total Invested</div>
-              <div className="text-xs text-blue-700">
-                Over {maxYears} years
-              </div>
+          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+            <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
+              💰
+            </div>
+            <div className="text-2xl font-bold text-blue-600 mb-2">
+              ${finalInvested.toLocaleString()}
+            </div>
+            <div className="text-sm font-medium text-gray-700 mb-1">Total Invested</div>
+            <div className="text-xs text-gray-500">
+              Over {maxYears} years
             </div>
           </div>
 
-          <div className={`group/card relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:scale-105 ${
-            isAnimating ? 'animate-bounce delay-200' : ''
-          }`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-600/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10 text-center">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xl mx-auto mb-3">
-                🚀
-              </div>
-              <div className="text-3xl font-black text-green-600 mb-2">
-                ${finalValue.toLocaleString()}
-              </div>
-              <div className="text-sm font-semibold text-green-900 mb-1">Final Value</div>
-              <div className="text-xs text-green-700">
-                After {maxYears} years
-              </div>
+          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+            <div className="w-10 h-10 rounded bg-green-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
+              📊
+            </div>
+            <div className="text-2xl font-bold text-green-600 mb-2">
+              ${finalValue.toLocaleString()}
+            </div>
+            <div className="text-sm font-medium text-gray-700 mb-1">Final Value</div>
+            <div className="text-xs text-gray-500">
+              After {maxYears} years
             </div>
           </div>
 
-          <div className={`group/card relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:scale-105 ${
-            isAnimating ? 'animate-bounce delay-400' : ''
-          }`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-violet-600/20 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10 text-center">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white text-xl mx-auto mb-3">
-                ✨
-              </div>
-              <div className="text-3xl font-black text-purple-600 mb-2">
-                ${totalGains.toLocaleString()}
-              </div>
-              <div className="text-sm font-semibold text-purple-900 mb-1">Total Gains</div>
-              <div className="text-xs text-purple-700">
-                {finalInvested > 0 ? ((totalGains / finalInvested) * 100).toFixed(1) : '0'}% return
-              </div>
+          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+            <div className="w-10 h-10 rounded bg-purple-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
+              📈
+            </div>
+            <div className="text-2xl font-bold text-purple-600 mb-2">
+              ${totalGains.toLocaleString()}
+            </div>
+            <div className="text-sm font-medium text-gray-700 mb-1">Total Gains</div>
+            <div className="text-xs text-gray-500">
+              {finalInvested > 0 ? ((totalGains / finalInvested) * 100).toFixed(1) : '0'}% return
             </div>
           </div>
         </div>
 
         {/* ROI and Growth Stats */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200">
+          <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-lg font-bold text-emerald-900 mb-1">Return on Investment</h4>
-                <p className="text-emerald-700">
-                  Your money grew by <span className="font-black text-2xl">
+                <h4 className="text-lg font-semibold text-gray-900 mb-1">Return on Investment</h4>
+                <p className="text-gray-600">
+                  Total return: <span className="font-bold text-xl">
                     {finalInvested > 0 ? ((totalGains / finalInvested) * 100).toFixed(1) : '0'}%
                   </span> over {maxYears} years
                 </p>
               </div>
-              <div className="text-4xl">🎯</div>
+              <div className="text-2xl">🎯</div>
             </div>
           </div>
 
-          <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200">
+          <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-lg font-bold text-blue-900 mb-1">Annual Growth Rate</h4>
-                <p className="text-blue-700">
-                  Average <span className="font-black text-2xl">
+                <h4 className="text-lg font-semibold text-gray-900 mb-1">Annual Growth Rate</h4>
+                <p className="text-gray-600">
+                  Expected <span className="font-bold text-xl">
                     {annualRate}%
                   </span> annual return
                 </p>
               </div>
-              <div className="text-4xl">📊</div>
+              <div className="text-2xl">📊</div>
             </div>
           </div>
         </div>
 
         {/* Year-by-Year Breakdown */}
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Year-by-Year Breakdown</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Year-by-Year Breakdown</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[5, 10, 15, 20, 25].filter(year => year <= maxYears).map((year, index) => {
               const yearValue = data[year] || 0;
               const yearInvested = totalInvested[year] || 0;
               const yearGains = yearValue - yearInvested;
               return (
-                <div key={year} className={`p-4 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 text-center transition-all duration-300 hover:scale-105 ${
-                  isAnimating ? `animate-bounce delay-${index * 200}` : ''
-                }`}>
-                  <div className="text-lg font-bold text-gray-900 mb-1">Year {year}</div>
-                  <div className="text-2xl font-black text-emerald-600 mb-1">
+                <div key={year} className="p-4 rounded-lg bg-gray-50 border border-gray-200 text-center">
+                  <div className="text-sm font-semibold text-gray-900 mb-1">Year {year}</div>
+                  <div className="text-lg font-bold text-emerald-600 mb-1">
                     ${yearValue.toLocaleString()}
                   </div>
                   <div className="text-xs text-gray-600">
@@ -384,11 +367,11 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         </div>
 
         {/* Disclaimer */}
-        <div className="p-6 bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-2xl">
+        <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
           <div className="flex items-start">
-            <div className="text-2xl mr-4">⚠️</div>
+            <div className="text-lg mr-3">⚠️</div>
             <div>
-              <h4 className="font-bold text-yellow-900 mb-2">Important Disclaimer</h4>
+              <h4 className="font-semibold text-yellow-900 mb-2">Important Disclaimer</h4>
               <p className="text-sm text-yellow-800 leading-relaxed">
                 This is a simplified calculation for educational purposes. Assumes monthly contributions with {annualRate}% annual return, compounded monthly.
                 Actual investment returns may vary significantly. Past performance does not guarantee future results.
