@@ -170,3 +170,6 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# WordPress Plugin Distribution
+lifesmart-calculator-wp-plugin.zip
