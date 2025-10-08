@@ -21,7 +21,7 @@ const CreditCardCalculator: React.FC = () => {
   });
 
   const [investmentInputs, setInvestmentInputs] = useState<InvestmentInputs>({
-    timePeriod: 5,
+    timePeriod: 10,
     returnRate: 9
   });
 
@@ -381,7 +381,7 @@ const CreditCardCalculator: React.FC = () => {
                   } rounded-md`}
                   min="1"
                   max="30"
-                  placeholder="5"
+                  placeholder="10"
                   aria-label="Investment time period in years"
                   title="Enter the number of years for investment growth"
                 />
