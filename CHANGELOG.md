@@ -18,7 +18,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-### [v1.0.0] - 2025-10-02
+### [v1.1.0] - 2025-10-08
+
+### ✨ Added New features and enhancements
+- Release v1.0.0: Major updates including new features, enhancements, and documentation improvements. Introduced CreditCardCalculator and InvestmentChart components, added dark mode support, and integrated CI/CD workflows. Comprehensive project configuration with essential files and improved user experience. Total of 11 commits. `+24, -1`
+- Refactor CreditCardCalculator and InvestmentChart for improved UI and performance `+179, -243`
+- Refactor InvestmentChart component to streamline data presentation and improve layout `+1, -28`
+- Update default investment time period in CreditCardCalculator to 10 years and adjust placeholder accordingly for improved user guidance. `+2, -2`
+- Refactor CreditCardCalculator layout for improved user experience `+136, -133`
+- Integrate InvestmentChart into CreditCardCalculator for enhanced investment tracking `+9, -8`
+- Update text size in CreditCardCalculator for improved readability `+1, -1`
+- Enhance InvestmentChart and CreditCardCalculator with dark mode support `+10, -3`
+- Enhance CreditCardCalculator button styles and toggle animation for improved user experience `+20, -6`
+- Add initial project setup with Vite, ESLint, and TypeScript configuration `+8170, -14625`
+
+### 🎨 Changed Code style and formatting changes
+- Refactor PostCSS and Tailwind configuration to use ES module syntax `+2, -2`
+
+**Total Changes:** 11 commits
+
+---
+
+## [v1.0.0] - 2025-10-02
 
 ### ✨ Added New features and enhancements
 - Update project to version 1.0.0 with comprehensive configuration and assets. Added essential files including .htaccess for server settings, browserconfig.xml, favicon, index.html, manifest.json, privacy policy, terms of service, and sitemap. Enhanced project metadata in package.json for better visibility and organization. `+463, -2`
