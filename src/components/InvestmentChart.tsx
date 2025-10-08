@@ -79,20 +79,6 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
     labels,
     datasets: [
       {
-        label: 'Total Invested',
-        data: totalInvested,
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderWidth: 3,
-        pointBackgroundColor: 'rgb(59, 130, 246)',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 3,
-        pointRadius: 6,
-        pointHoverRadius: 10,
-        fill: true,
-        tension: 0.4,
-      },
-      {
         label: 'Investment Value',
         data,
         borderColor: 'rgb(16, 185, 129)',
@@ -271,7 +257,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         </div>
 
         {/* Key Metrics Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
             <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
               💰
@@ -295,19 +281,6 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
             <div className="text-sm font-medium text-gray-700 mb-1">Final Value</div>
             <div className="text-xs text-gray-500">
               After {maxYears} years
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-10 h-10 rounded bg-purple-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
-              📈
-            </div>
-            <div className="text-2xl font-bold text-purple-600 mb-2">
-              ${totalGains.toLocaleString()}
-            </div>
-            <div className="text-sm font-medium text-gray-700 mb-1">Total Gains</div>
-            <div className="text-xs text-gray-500">
-              {finalInvested > 0 ? ((totalGains / finalInvested) * 100).toFixed(1) : '0'}% return
             </div>
           </div>
         </div>
