@@ -210,7 +210,7 @@ const CreditCardCalculator: React.FC = () => {
                   <div className={`mt-3 p-3 rounded-md ${
                     darkMode ? 'bg-gray-700' : 'bg-gray-50'
                   }`}>
-                    <span className={`text-sm font-medium ${
+                    <span className={`text-base font-medium ${
                       darkMode ? 'text-gray-200' : 'text-gray-700'
                     }`}>
                       Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
