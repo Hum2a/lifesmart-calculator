@@ -112,6 +112,7 @@ const CreditCardCalculator: React.FC = () => {
             monthlyContribution={monthlySavings}
             annualRate={investmentInputs.returnRate ?? 9}
             maxYears={investmentInputs.timePeriod ?? 10}
+            darkMode={darkMode}
           />
         </div>
 

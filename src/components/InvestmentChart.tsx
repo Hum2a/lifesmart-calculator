@@ -28,12 +28,14 @@ interface InvestmentChartProps {
   monthlyContribution: number;
   annualRate: number;
   maxYears?: number;
+  darkMode?: boolean;
 }
 
 const InvestmentChart: React.FC<InvestmentChartProps> = ({
   monthlyContribution,
   annualRate,
-  maxYears = 10
+  maxYears = 10,
+  darkMode = false
 }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -235,10 +237,14 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
             📈
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+            <h2 className={`text-2xl font-semibold mb-2 ${
+              darkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Investment Growth Analysis
             </h2>
-            <p className="text-base text-gray-600">
+            <p className={`text-base ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Projected growth investing{' '}
               <span className="font-semibold text-emerald-600">
                 ${(monthlyContribution * 12).toLocaleString()} annually (${monthlyContribution.toFixed(2)}/month)
