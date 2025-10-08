@@ -106,160 +106,162 @@ const CreditCardCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Calculator Card */}
-        <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
-          darkMode
-            ? 'bg-gray-800 border-gray-700'
-            : 'bg-white border-gray-200'
-        }`}>
+        {/* Main Calculator Layout - Side by Side */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Credit Card Parameters Card */}
+          <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
+            darkMode
+              ? 'bg-gray-800 border-gray-700'
+              : 'bg-white border-gray-200'
+          }`}>
 
-          <div className="relative z-10 p-8 xl:p-10">
-            <div className="flex items-center mb-8">
-              <div className={`w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mr-4`}>
-                💳
-              </div>
-              <h2 className={`text-2xl font-semibold ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                Credit Card Parameters
-              </h2>
-            </div>
-
-            <div className="space-y-8">
-              {/* Monthly Spend */}
-              <div className="group/input">
-                <label className={`block text-sm font-medium mb-2 ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Average Monthly Spending ($)
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className={`text-lg ${
-                      darkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`}>$</span>
-                  </div>
-                  <input
-                    type="number"
-                    value={inputs.monthlySpend || ''}
-                    onChange={(e) => {
-                      const value = e.target.value === '' ? 0 : Number(e.target.value);
-                      handleInputChange('monthlySpend', Math.max(0, value));
-                    }}
-                    onBlur={(e) => {
-                      if (e.target.value === '' || Number(e.target.value) < 0) {
-                        handleInputChange('monthlySpend', 0);
-                      }
-                    }}
-                    className={`w-full pl-8 pr-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                      darkMode
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                    } rounded-md`}
-                    placeholder="2000"
-                  />
+            <div className="relative z-10 p-8 xl:p-10">
+              <div className="flex items-center mb-8">
+                <div className={`w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mr-4`}>
+                  💳
                 </div>
+                <h2 className={`text-2xl font-semibold ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Credit Card Parameters
+                </h2>
               </div>
 
-              {/* Balance Carried */}
-              <div className="group/input">
-                <label className={`block text-sm font-medium mb-2 ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Average Balance Carried Forward (%)
-                </label>
-                <div className="flex items-center space-x-4">
-                  <span className={`text-sm font-medium ${
-                    darkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>0%</span>
-                  <div className="flex-1 relative">
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={inputs.balanceCarriedPercent}
-                      onChange={(e) => handleInputChange('balanceCarriedPercent', Number(e.target.value))}
-                      className="w-full h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full appearance-none cursor-pointer slider"
-                      style={{
-                        background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${inputs.balanceCarriedPercent}%, #e5e7eb ${inputs.balanceCarriedPercent}%, #e5e7eb 100%)`
-                      }}
-                      aria-label="Percentage of balance carried over"
-                      title={`${inputs.balanceCarriedPercent}% of balance carried over`}
-                    />
-                    <div className="flex justify-between text-xs text-gray-500 mt-1">
-                      <span>25%</span>
-                      <span>50%</span>
-                      <span>75%</span>
-                    </div>
-                  </div>
-                  <span className={`text-sm font-medium ${
-                    darkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>100%</span>
-                </div>
-                <div className={`mt-3 p-3 rounded-md ${
-                  darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                }`}>
-                  <span className={`text-sm font-medium ${
-                    darkMode ? 'text-gray-200' : 'text-gray-700'
+              <div className="space-y-8">
+                {/* Monthly Spend */}
+                <div className="group/input">
+                  <label className={`block text-sm font-medium mb-2 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                    Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
-                    <span className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
-                      darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
+                    Average Monthly Spending ($)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className={`text-lg ${
+                        darkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>$</span>
+                    </div>
+                    <input
+                      type="number"
+                      value={inputs.monthlySpend || ''}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? 0 : Number(e.target.value);
+                        handleInputChange('monthlySpend', Math.max(0, value));
+                      }}
+                      onBlur={(e) => {
+                        if (e.target.value === '' || Number(e.target.value) < 0) {
+                          handleInputChange('monthlySpend', 0);
+                        }
+                      }}
+                      className={`w-full pl-8 pr-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                        darkMode
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                      } rounded-md`}
+                      placeholder="2000"
+                    />
+                  </div>
+                </div>
+
+                {/* Balance Carried */}
+                <div className="group/input">
+                  <label className={`block text-sm font-medium mb-2 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Average Balance Carried Forward (%)
+                  </label>
+                  <div className="flex items-center space-x-4">
+                    <span className={`text-sm font-medium ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>0%</span>
+                    <div className="flex-1 relative">
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={inputs.balanceCarriedPercent}
+                        onChange={(e) => handleInputChange('balanceCarriedPercent', Number(e.target.value))}
+                        className="w-full h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full appearance-none cursor-pointer slider"
+                        style={{
+                          background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${inputs.balanceCarriedPercent}%, #e5e7eb ${inputs.balanceCarriedPercent}%, #e5e7eb 100%)`
+                        }}
+                        aria-label="Percentage of balance carried over"
+                        title={`${inputs.balanceCarriedPercent}% of balance carried over`}
+                      />
+                      <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>25%</span>
+                        <span>50%</span>
+                        <span>75%</span>
+                      </div>
+                    </div>
+                    <span className={`text-sm font-medium ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>100%</span>
+                  </div>
+                  <div className={`mt-3 p-3 rounded-md ${
+                    darkMode ? 'bg-gray-700' : 'bg-gray-50'
+                  }`}>
+                    <span className={`text-sm font-medium ${
+                      darkMode ? 'text-gray-200' : 'text-gray-700'
                     }`}>
-                      ${carriedBalance.toLocaleString()}
+                      Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
+                      <span className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
+                        darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
+                      }`}>
+                        ${carriedBalance.toLocaleString()}
+                      </span>
                     </span>
-                  </span>
+                  </div>
+                </div>
+
+                {/* APR */}
+                <div className="group/input">
+                  <label className={`block text-sm font-medium mb-2 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Annual Percentage Rate (APR %)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={inputs.apr || ''}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? 0 : Number(e.target.value);
+                        handleInputChange('apr', Math.max(0, value));
+                      }}
+                      onBlur={(e) => {
+                        if (e.target.value === '' || Number(e.target.value) < 0) {
+                          handleInputChange('apr', 0);
+                        }
+                      }}
+                      className={`w-full pl-4 pr-12 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
+                        darkMode
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                      } rounded-md`}
+                      placeholder="23"
+                    />
+                    <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>%</span>
+                  </div>
                 </div>
               </div>
 
-              {/* APR */}
-              <div className="group/input">
-                <label className={`block text-sm font-medium mb-2 ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Annual Percentage Rate (APR %)
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    value={inputs.apr || ''}
-                    onChange={(e) => {
-                      const value = e.target.value === '' ? 0 : Number(e.target.value);
-                      handleInputChange('apr', Math.max(0, value));
-                    }}
-                    onBlur={(e) => {
-                      if (e.target.value === '' || Number(e.target.value) < 0) {
-                        handleInputChange('apr', 0);
-                      }
-                    }}
-                    className={`w-full pl-4 pr-12 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                      darkMode
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                    } rounded-md`}
-                    placeholder="23"
-                  />
-                  <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${
-                    darkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>%</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={`mt-8 pt-6 border-t ${
-              darkMode ? 'border-gray-600' : 'border-gray-200'
-            }`}>
-              <p className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-500'
+              <div className={`mt-8 pt-6 border-t ${
+                darkMode ? 'border-gray-600' : 'border-gray-200'
               }`}>
-                Annual interest = (APR/100 ÷ 365) x days carried x carried balance x 12
-              </p>
+                <p className={`text-sm ${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Annual interest = (APR/100 ÷ 365) x days carried x carried balance x 12
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Cost Comparison Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
+          {/* Cost Comparison Cards */}
+          <div className="grid grid-cols-1 gap-6">
           {/* Standard Credit Card */}
           <div className={`relative overflow-hidden rounded-lg shadow-md border ${
             darkMode
@@ -340,6 +342,7 @@ const CreditCardCalculator: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
 
         {/* Investment Calculator */}
