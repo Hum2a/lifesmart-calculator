@@ -92,15 +92,29 @@ const CreditCardCalculator: React.FC = () => {
             </div>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`w-12 h-12 rounded-lg transition-all duration-300 ${
+              className={`relative w-14 h-8 rounded-full transition-all duration-500 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50 ${
                 darkMode
-                  ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400'
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-              }`}
+                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 focus:ring-indigo-300'
+                  : 'bg-gradient-to-r from-yellow-400 to-orange-400 focus:ring-yellow-300'
+              } shadow-lg hover:shadow-xl transform hover:scale-105`}
               title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              <div className="flex items-center justify-center text-lg">
-                {darkMode ? '☀️' : '🌙'}
+              {/* Toggle Circle */}
+              <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ease-in-out transform ${
+                darkMode ? 'translate-x-7' : 'translate-x-1'
+              }`}>
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className={`transition-all duration-500 text-sm ${
+                    darkMode ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                  }`}>
+                    ☀️
+                  </div>
+                  <div className={`absolute transition-all duration-500 text-sm ${
+                    darkMode ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  }`}>
+                    🌙
+                  </div>
+                </div>
               </div>
             </button>
           </div>
