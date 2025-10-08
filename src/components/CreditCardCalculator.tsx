@@ -106,6 +106,15 @@ const CreditCardCalculator: React.FC = () => {
           </div>
         </div>
 
+        {/* Investment Chart */}
+        <div className="mb-8">
+          <InvestmentChart
+            monthlyContribution={monthlySavings}
+            annualRate={investmentInputs.returnRate ?? 9}
+            maxYears={investmentInputs.timePeriod ?? 10}
+          />
+        </div>
+
         {/* Main Calculator Layout - Side by Side */}
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Credit Card Parameters Card */}
@@ -419,14 +428,6 @@ const CreditCardCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Investment Chart */}
-        <div className="mt-8">
-          <InvestmentChart
-            monthlyContribution={monthlySavings}
-            annualRate={investmentInputs.returnRate ?? 9}
-            maxYears={investmentInputs.timePeriod ?? 10}
-          />
-        </div>
       </div>
     </div>
   );
