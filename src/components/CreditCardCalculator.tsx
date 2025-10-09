@@ -434,24 +434,37 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                   </span>
                 </div>
               </div>
-              <div className={`space-y-1 text-sm mb-4 ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
+              <div className={`text-xs mb-3 opacity-60 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
-                <p>Monthly Spend: <span className="font-medium">${inputs.monthlySpend.toLocaleString()}</span></p>
-                <p>Balance Carried: <span className="font-medium">${carriedBalance.toLocaleString()}</span></p>
+                <p>Monthly Spend: ${inputs.monthlySpend.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} | Balance Carried: ${carriedBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
               </div>
               <div className="text-3xl font-bold text-green-600 mb-1">
-                $0
+                $0.00
               </div>
-              <div className={`text-xs ${
+              <div className={`text-xs mb-3 ${
                 darkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
                 Annual Interest Cost
               </div>
-              <div className={`text-sm mt-2 ${
-                darkMode ? 'text-gray-400' : 'text-gray-500'
+              <div className={`mt-4 p-3 rounded-lg ${
+                darkMode ? 'bg-green-900/20 border border-green-700/30' : 'bg-green-50 border border-green-200'
               }`}>
-                <span className="line-through">${annualInterest.toLocaleString()}</span> saved annually
+                <div className={`text-xs font-medium mb-1 ${
+                  darkMode ? 'text-green-300' : 'text-green-700'
+                }`}>
+                  💰 Your Annual Savings
+                </div>
+                <div className={`text-2xl font-bold ${
+                  isAnimating ? 'animate-pulse' : ''
+                } text-green-600 dark:text-green-400`}>
+                  ${annualInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div className={`text-xs mt-1 ${
+                  darkMode ? 'text-green-400/80' : 'text-green-600'
+                }`}>
+                  saved annually with 0% APR
+                </div>
               </div>
             </div>
           </div>
