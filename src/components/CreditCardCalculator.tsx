@@ -471,6 +471,117 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
         </div>
         </div>
 
+        {/* Conclusion Card - Total Savings Over Time */}
+        <div className={`relative overflow-hidden rounded-lg shadow-lg border mt-8 ${
+          darkMode
+            ? 'bg-gradient-to-br from-blue-900/40 to-purple-900/40 border-blue-700/50'
+            : 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200'
+        }`}>
+          <div className="p-8">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white text-3xl mb-4 shadow-lg">
+                🎯
+              </div>
+              <h2 className={`text-2xl md:text-3xl font-bold mb-2 ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                Your Financial Journey
+              </h2>
+              <p className={`text-sm md:text-base ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                See the impact of switching to SPZero over time
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Annual Savings */}
+              <div className={`p-6 rounded-lg ${
+                darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-white border border-gray-200'
+              }`}>
+                <div className={`text-xs font-semibold uppercase tracking-wide mb-2 ${
+                  darkMode ? 'text-blue-400' : 'text-blue-600'
+                }`}>
+                  Year 1 Savings
+                </div>
+                <div className={`text-3xl font-bold ${
+                  isAnimating ? 'animate-pulse' : ''
+                } ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  ${annualInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div className={`text-xs mt-1 ${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Interest saved annually
+                </div>
+              </div>
+
+              {/* 5 Year Savings */}
+              <div className={`p-6 rounded-lg ${
+                darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-white border border-gray-200'
+              }`}>
+                <div className={`text-xs font-semibold uppercase tracking-wide mb-2 ${
+                  darkMode ? 'text-purple-400' : 'text-purple-600'
+                }`}>
+                  5 Year Savings
+                </div>
+                <div className={`text-3xl font-bold ${
+                  isAnimating ? 'animate-pulse' : ''
+                } ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  ${(annualInterest * 5).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div className={`text-xs mt-1 ${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Total interest saved
+                </div>
+              </div>
+
+              {/* Custom Period Savings */}
+              <div className={`p-6 rounded-lg ${
+                darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-white border border-gray-200'
+              }`}>
+                <div className={`text-xs font-semibold uppercase tracking-wide mb-2 ${
+                  darkMode ? 'text-emerald-400' : 'text-emerald-600'
+                }`}>
+                  {investmentInputs.timePeriod || 10} Year Savings
+                </div>
+                <div className={`text-3xl font-bold ${
+                  isAnimating ? 'animate-pulse' : ''
+                } ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  ${(annualInterest * (investmentInputs.timePeriod || 10)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+                <div className={`text-xs mt-1 ${
+                  darkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Total interest saved
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Summary */}
+            <div className={`mt-6 p-6 rounded-lg text-center ${
+              darkMode ? 'bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/30' : 'bg-gradient-to-r from-blue-100 to-purple-100 border border-blue-300'
+            }`}>
+              <p className={`text-sm md:text-base mb-2 ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                By switching to SPZero's 0% APR card, you could save
+              </p>
+              <p className={`text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent ${
+                isAnimating ? 'animate-pulse' : ''
+              }`}>
+                ${(annualInterest * (investmentInputs.timePeriod || 10)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              </p>
+              <p className={`text-sm md:text-base mt-2 ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                over the next {investmentInputs.timePeriod || 10} years that would have been lost to interest payments
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Investment Calculator */}
         <div className={`relative overflow-hidden rounded-lg shadow-lg border mt-8 ${
           darkMode
