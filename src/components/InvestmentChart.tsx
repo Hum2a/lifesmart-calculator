@@ -11,6 +11,9 @@ import {
 } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { FaMoneyBillWave } from 'react-icons/fa';
+import { IoMdStats } from 'react-icons/io';
+import { IoStatsChart, IoTrendingUp, IoWarning } from 'react-icons/io5';
 
 // Register Chart.js components
 ChartJS.register(
@@ -234,7 +237,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
       <div className="p-8">
         <div className="flex items-center mb-6">
           <div className="w-10 h-10 rounded bg-emerald-600 flex items-center justify-center text-white text-lg mr-4">
-            📈
+            <IoTrendingUp className="text-xl" />
           </div>
           <div>
             <h2 className={`text-2xl font-semibold mb-2 ${
@@ -266,7 +269,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
             <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
-              💰
+              <FaMoneyBillWave className="text-xl" />
             </div>
             <div className="text-2xl font-bold text-blue-600 mb-2">
               ${finalInvested.toLocaleString()}
@@ -279,7 +282,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
           <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
             <div className="w-10 h-10 rounded bg-green-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
-              📊
+              <IoStatsChart className="text-xl" />
             </div>
             <div className="text-2xl font-bold text-green-600 mb-2">
               ${finalValue.toLocaleString()}
@@ -303,7 +306,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
                   </span> over {maxYears} years
                 </p>
               </div>
-              <div className="text-2xl">🎯</div>
+              <div className="text-2xl"><IoMdStats /></div>
             </div>
           </div>
 
@@ -317,7 +320,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
                   </span> annual return
                 </p>
               </div>
-              <div className="text-2xl">📊</div>
+              <div className="text-2xl"><IoStatsChart /></div>
             </div>
           </div>
         </div>
@@ -348,7 +351,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         {/* Disclaimer */}
         <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
           <div className="flex items-start">
-            <div className="text-lg mr-3">⚠️</div>
+            <div className="text-lg mr-3"><IoWarning className="text-yellow-600" /></div>
             <div>
               <h4 className="font-semibold text-yellow-900 mb-2">Important Disclaimer</h4>
               <p className="text-sm text-yellow-800 leading-relaxed">
