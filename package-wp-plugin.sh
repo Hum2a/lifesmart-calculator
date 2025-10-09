@@ -27,33 +27,14 @@ if [[ ! -f "lifesmart-calculator.php" ]]; then
     exit 1
 fi
 
-# Step 1: Rename WP-README.md to readme.md
-echo -e "${YELLOW}📝 Step 1: Renaming WP-README.md to readme.md${NC}"
-if [[ -f "WP-README.md" ]]; then
-    mv "WP-README.md" "readme.md"
-    echo -e "${GREEN}✅ Successfully renamed WP-README.md to readme.md${NC}"
-else
-    echo -e "${YELLOW}⚠️  WP-README.md not found, skipping rename${NC}"
-fi
-
-# Step 2: Check if build directory exists
-echo -e "${YELLOW}🔍 Step 2: Checking for React build files${NC}"
-if [[ ! -d "build" ]]; then
-    echo -e "${RED}❌ Error: build directory not found${NC}"
-    echo -e "${YELLOW}Please run 'npm run build' first to create the React build${NC}"
+# Check if WP-README.md exists
+if [[ ! -f "WP-README.md" ]]; then
+    echo -e "${RED}❌ Error: WP-README.md not found in current directory${NC}"
     exit 1
 fi
 
-if [[ ! -f "build/static/css/main.79de0914.css" ]] || [[ ! -f "build/static/js/main.02195a11.js" ]]; then
-    echo -e "${RED}❌ Error: Required build files not found${NC}"
-    echo -e "${YELLOW}Please run 'npm run build' to generate the React build files${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✅ Build files found${NC}"
-
-# Step 3: Create temporary directory for packaging
-echo -e "${YELLOW}📦 Step 3: Creating plugin package${NC}"
+# Step 1: Create temporary directory for packaging
+echo -e "${YELLOW}📦 Step 1: Creating plugin package${NC}"
 TEMP_DIR=$(mktemp -d)
 PLUGIN_DIR="${TEMP_DIR}/${PLUGIN_NAME}"
 
@@ -63,14 +44,13 @@ mkdir -p "$PLUGIN_DIR"
 # Copy required files
 echo -e "${BLUE}Copying plugin files...${NC}"
 cp "lifesmart-calculator.php" "$PLUGIN_DIR/"
-cp "readme.md" "$PLUGIN_DIR/"
 
-# Copy build directory
-echo -e "${BLUE}Copying React build files...${NC}"
-cp -r "build" "$PLUGIN_DIR/"
+# Copy WP-README.md as readme.md in the package
+echo -e "${BLUE}Copying WP-README.md as readme.md (for WordPress)...${NC}"
+cp "WP-README.md" "$PLUGIN_DIR/readme.md"
 
-# Step 4: Create ZIP file
-echo -e "${YELLOW}🗜️  Step 4: Creating ZIP file${NC}"
+# Step 2: Create ZIP file
+echo -e "${YELLOW}🗜️  Step 2: Creating ZIP file${NC}"
 cd "$TEMP_DIR"
 zip -r "$ZIP_NAME" "$PLUGIN_NAME" -q
 
@@ -80,8 +60,8 @@ mv "$ZIP_NAME" "$SCRIPT_DIR/"
 # Clean up temporary directory
 rm -rf "$TEMP_DIR"
 
-# Step 5: Update .gitignore
-echo -e "${YELLOW}📝 Step 5: Updating .gitignore${NC}"
+# Step 3: Update .gitignore
+echo -e "${YELLOW}📝 Step 3: Updating .gitignore${NC}"
 cd "$SCRIPT_DIR"
 
 if [[ ! -f ".gitignore" ]]; then
@@ -99,7 +79,7 @@ else
     echo -e "${BLUE}ℹ️  $ZIP_NAME already in .gitignore${NC}"
 fi
 
-# Step 6: Display results
+# Step 4: Display results
 echo -e "${GREEN}🎉 WordPress Plugin Packaging Complete!${NC}"
 echo -e "${GREEN}=====================================${NC}"
 echo -e "${GREEN}✅ Plugin ZIP file created: ${ZIP_NAME}${NC}"
@@ -109,7 +89,6 @@ echo ""
 echo -e "${BLUE}📋 Package Contents:${NC}"
 echo -e "${BLUE}  - lifesmart-calculator.php (main plugin file)${NC}"
 echo -e "${BLUE}  - readme.md (WordPress plugin readme)${NC}"
-echo -e "${BLUE}  - build/ (React app build files)${NC}"
 echo ""
 echo -e "${YELLOW}🚀 Ready for WordPress installation!${NC}"
 echo -e "${YELLOW}Upload $ZIP_NAME to your WordPress site and activate the plugin.${NC}"

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InvestmentChart from './InvestmentChart';
+import { AppConfig } from '../App';
 
 interface CalculatorInputs {
   monthlySpend: number;
@@ -12,7 +13,11 @@ interface InvestmentInputs {
   returnRate: number | null;
 }
 
-const CreditCardCalculator: React.FC = () => {
+interface CreditCardCalculatorProps {
+  config: AppConfig;
+}
+
+const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) => {
   // Default values as specified
   const [inputs, setInputs] = useState<CalculatorInputs>({
     monthlySpend: 2000,
@@ -30,13 +35,28 @@ const CreditCardCalculator: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check for saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(savedDarkMode);
+    // Determine initial dark mode based on config
+    let initialDarkMode = false;
+    
+    if (config.mode === 'dark') {
+      initialDarkMode = true;
+    } else if (config.mode === 'light') {
+      initialDarkMode = false;
+    } else {
+      // Auto mode: check localStorage or system preference
+      const savedDarkMode = localStorage.getItem('darkMode');
+      if (savedDarkMode !== null) {
+        initialDarkMode = savedDarkMode === 'true';
+      } else {
+        initialDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+    }
+    
+    setDarkMode(initialDarkMode);
 
     // Add loaded class after component mounts
     setTimeout(() => setIsLoaded(true), 100);
-  }, []);
+  }, [config.mode]);
 
   useEffect(() => {
     // Apply dark mode to document
@@ -45,8 +65,12 @@ const CreditCardCalculator: React.FC = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
-    localStorage.setItem('darkMode', darkMode.toString());
-  }, [darkMode]);
+    
+    // Only save to localStorage if in auto mode
+    if (config.mode === 'auto') {
+      localStorage.setItem('darkMode', darkMode.toString());
+    }
+  }, [darkMode, config.mode]);
 
   // Calculations
   const carriedBalance = inputs.monthlySpend * (inputs.balanceCarriedPercent / 100);
@@ -67,7 +91,9 @@ const CreditCardCalculator: React.FC = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-500 ${
-      darkMode
+      config.transparentBackground
+        ? 'bg-transparent'
+        : darkMode
         ? 'bg-gray-900'
         : 'bg-gray-50'
     } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -90,33 +116,37 @@ const CreditCardCalculator: React.FC = () => {
                 Optimize your financial strategy by understanding the true cost of carrying credit card debt.
               </p>
             </div>
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className={`relative w-14 h-8 rounded-full transition-all duration-500 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50 ${
-                darkMode
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 focus:ring-indigo-300'
-                  : 'bg-gradient-to-r from-yellow-400 to-orange-400 focus:ring-yellow-300'
-              } shadow-lg hover:shadow-xl transform hover:scale-105`}
-              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {/* Toggle Circle */}
-              <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ease-in-out transform ${
-                darkMode ? 'translate-x-7' : 'translate-x-1'
-              }`}>
-                <div className="flex items-center justify-center h-full w-full">
-                  <div className={`transition-all duration-500 text-sm ${
-                    darkMode ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-                  }`}>
-                    ☀️
-                  </div>
-                  <div className={`absolute transition-all duration-500 text-sm ${
-                    darkMode ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                  }`}>
-                    🌙
+            {/* Only show toggle if mode is auto */}
+            {config.mode === 'auto' && (
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`relative w-14 h-8 rounded-full transition-all duration-500 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50 ${
+                  darkMode
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 focus:ring-indigo-300'
+                    : 'bg-gradient-to-r from-yellow-400 to-orange-400 focus:ring-yellow-300'
+                } shadow-lg hover:shadow-xl transform hover:scale-105`}
+                title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {/* Toggle Circle */}
+                <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ease-in-out transform ${
+                  darkMode ? 'translate-x-7' : 'translate-x-1'
+                }`}>
+                  <div className="flex items-center justify-center h-full w-full">
+                    <div className={`transition-all duration-500 text-sm ${
+                      darkMode ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                    }`}>
+                      ☀️
+                    </div>
+                    <div className={`absolute transition-all duration-500 text-sm ${
+                      darkMode ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                    }`}>
+                      🌙
+                    </div>
                   </div>
                 </div>
-              </div>
-            </button>
+              </button>
+            )}
+            {config.mode !== 'auto' && <div className="w-16"></div>} {/* Spacer when toggle hidden */}
           </div>
         </div>
 
@@ -449,3 +479,4 @@ const CreditCardCalculator: React.FC = () => {
 };
 
 export default CreditCardCalculator;
+

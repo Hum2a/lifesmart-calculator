@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: LifeSmart Calculator
- * Plugin URI: https://lifesmart-calculator.com
- * Description: Professional financial and life planning calculator tool with React integration. Automatically loads from CDN for production or local assets for development.
- * Version: 1.0.0
- * Author: LifeSmart Calculator Team
+ * Plugin URI: https://www.smartsessions.co.uk/
+ * Description: Interest calculator for SPZero.
+ * Version: 0.8.0
+ * Author: LifeSmart
  * License: MIT
  * Text Domain: lifesmart-calculator
  * Domain Path: /languages
@@ -26,9 +26,11 @@ define('LIFESMART_CALCULATOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('LIFESMART_CALCULATOR_PLUGIN_FILE', __FILE__);
 
 // CDN Configuration
-define('LIFESMART_CALCULATOR_CDN_BASE', 'https://lifesmart-calculator.onrender.com');
-define('LIFESMART_CALCULATOR_CDN_CSS', LIFESMART_CALCULATOR_CDN_BASE . '/static/css/main.385ef74e.css');
-define('LIFESMART_CALCULATOR_CDN_JS_MAIN', LIFESMART_CALCULATOR_CDN_BASE . '/static/js/main.8a191e95.js');
+define('LIFESMART_CALCULATOR_CDN_BASE', 'https://spzero-widget.lifesmart.workers.dev');
+define('LIFESMART_CALCULATOR_CDN_CSS', LIFESMART_CALCULATOR_CDN_BASE . '/assets/index.css');
+define('LIFESMART_CALCULATOR_CDN_JS_VENDOR', LIFESMART_CALCULATOR_CDN_BASE . '/assets/vendor.js');
+define('LIFESMART_CALCULATOR_CDN_JS_CHARTS', LIFESMART_CALCULATOR_CDN_BASE . '/assets/charts.js');
+define('LIFESMART_CALCULATOR_CDN_JS_MAIN', LIFESMART_CALCULATOR_CDN_BASE . '/assets/index.js');
 
 /**
  * Main LifeSmart Calculator Plugin Class
@@ -74,22 +76,24 @@ class LifeSmartCalculator {
         $is_local = $this->is_local_environment($hostname);
         
         if ($is_local) {
-            // Use local assets for development
+            // Use local assets for development with consistent file names
             $this->asset_config = array(
-                'css_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/static/css/main.79de0914.css',
-                'js_main_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/static/js/main.02195a11.js',
-                'js_chunk_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/static/js/453.c3127e13.chunk.js',
+                'css_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/assets/index.css',
+                'js_vendor_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/assets/vendor.js',
+                'js_charts_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/assets/charts.js',
+                'js_main_url' => LIFESMART_CALCULATOR_PLUGIN_URL . 'build/assets/index.js',
                 'source' => 'local',
-                'version' => LIFESMART_CALCULATOR_VERSION . '-local'
+                'version' => LIFESMART_CALCULATOR_VERSION
             );
         } else {
             // Use CDN assets for production
             $this->asset_config = array(
                 'css_url' => LIFESMART_CALCULATOR_CDN_CSS,
+                'js_vendor_url' => LIFESMART_CALCULATOR_CDN_JS_VENDOR,
+                'js_charts_url' => LIFESMART_CALCULATOR_CDN_JS_CHARTS,
                 'js_main_url' => LIFESMART_CALCULATOR_CDN_JS_MAIN,
-                'js_chunk_url' => null, // CDN version doesn't use chunks
                 'source' => 'cdn',
-                'version' => LIFESMART_CALCULATOR_VERSION . '-cdn'
+                'version' => LIFESMART_CALCULATOR_VERSION
             );
         }
     }
@@ -129,14 +133,17 @@ class LifeSmartCalculator {
         global $post;
         if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'lifesmart_calculator')) {
             // Preload CSS
-            echo '<link rel="preload" href="' . esc_url($this->asset_config['css_url']) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
-            echo '<noscript><link rel="stylesheet" href="' . esc_url($this->asset_config['css_url']) . '"></noscript>';
+            echo '<link rel="preload" href="' . esc_url($this->asset_config['css_url']) . '?ver=' . esc_attr($this->asset_config['version']) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
+            echo '<noscript><link rel="stylesheet" href="' . esc_url($this->asset_config['css_url']) . '?ver=' . esc_attr($this->asset_config['version']) . '"></noscript>';
             
-            // Preload JavaScript
-            if ($this->asset_config['js_chunk_url']) {
-                echo '<link rel="preload" href="' . esc_url($this->asset_config['js_chunk_url']) . '" as="script">';
+            // Preload JavaScript chunks
+            if (!empty($this->asset_config['js_vendor_url'])) {
+                echo '<link rel="preload" href="' . esc_url($this->asset_config['js_vendor_url']) . '?ver=' . esc_attr($this->asset_config['version']) . '" as="script">';
             }
-            echo '<link rel="preload" href="' . esc_url($this->asset_config['js_main_url']) . '" as="script">';
+            if (!empty($this->asset_config['js_charts_url'])) {
+                echo '<link rel="preload" href="' . esc_url($this->asset_config['js_charts_url']) . '?ver=' . esc_attr($this->asset_config['version']) . '" as="script">';
+            }
+            echo '<link rel="preload" href="' . esc_url($this->asset_config['js_main_url']) . '?ver=' . esc_attr($this->asset_config['version']) . '" as="script">';
         }
     }
     
@@ -163,19 +170,35 @@ class LifeSmartCalculator {
             $this->asset_config['version']
         );
         
-        // Enqueue JavaScript chunks (only for local)
-        if ($this->asset_config['js_chunk_url']) {
+        $dependencies = array();
+        
+        // Enqueue vendor chunk (React, ReactDOM)
+        if (!empty($this->asset_config['js_vendor_url'])) {
             wp_enqueue_script(
-                'lifesmart-calculator-chunk',
-                $this->asset_config['js_chunk_url'],
+                'lifesmart-calculator-vendor',
+                $this->asset_config['js_vendor_url'],
                 array(),
                 $this->asset_config['version'],
                 true
             );
+            // Add type="module" attribute
+            add_filter('script_loader_tag', array($this, 'add_type_module_attribute'), 10, 3);
+            $dependencies[] = 'lifesmart-calculator-vendor';
+        }
+        
+        // Enqueue charts chunk (Chart.js, react-chartjs-2)
+        if (!empty($this->asset_config['js_charts_url'])) {
+            wp_enqueue_script(
+                'lifesmart-calculator-charts',
+                $this->asset_config['js_charts_url'],
+                $dependencies,
+                $this->asset_config['version'],
+                true
+            );
+            $dependencies[] = 'lifesmart-calculator-charts';
         }
         
         // Enqueue main JavaScript
-        $dependencies = $this->asset_config['js_chunk_url'] ? array('lifesmart-calculator-chunk') : array();
         wp_enqueue_script(
             'lifesmart-calculator-main',
             $this->asset_config['js_main_url'],
@@ -185,7 +208,18 @@ class LifeSmartCalculator {
         );
         
         // Add inline script for configuration
-        wp_add_inline_script('lifesmart-calculator-main', $this->get_inline_config_script());
+        wp_add_inline_script('lifesmart-calculator-main', $this->get_inline_config_script(), 'before');
+    }
+    
+    /**
+     * Add type="module" attribute to script tags
+     */
+    public function add_type_module_attribute($tag, $handle, $src) {
+        // Add type="module" to our calculator scripts
+        if (strpos($handle, 'lifesmart-calculator-') === 0) {
+            $tag = str_replace(' src', ' type="module" src', $tag);
+        }
+        return $tag;
     }
     
     /**
@@ -218,7 +252,16 @@ class LifeSmartCalculator {
             'height' => 'auto',
             'class' => '',
             'id' => 'lifesmart-calculator-' . uniqid(),
+            'mode' => 'auto', // auto, light, dark
+            'transparent-background' => 'false', // true, false
         ), $atts, 'lifesmart_calculator');
+        
+        // Validate mode attribute
+        $valid_modes = array('auto', 'light', 'dark');
+        $mode = in_array(strtolower($atts['mode']), $valid_modes) ? strtolower($atts['mode']) : 'auto';
+        
+        // Validate transparent-background attribute
+        $transparent_bg = filter_var($atts['transparent-background'], FILTER_VALIDATE_BOOLEAN);
         
         // Ensure assets are loaded
         $this->enqueue_calculator_assets();
@@ -252,7 +295,9 @@ class LifeSmartCalculator {
              class="<?php echo esc_attr(implode(' ', $container_classes)); ?>"
              <?php if (!empty($container_styles)): ?>style="<?php echo esc_attr(implode('; ', $container_styles)); ?>"<?php endif; ?>
              data-source="<?php echo esc_attr($this->asset_config['source']); ?>"
-             data-version="<?php echo esc_attr(LIFESMART_CALCULATOR_VERSION); ?>">
+             data-version="<?php echo esc_attr(LIFESMART_CALCULATOR_VERSION); ?>"
+             data-mode="<?php echo esc_attr($mode); ?>"
+             data-transparent-background="<?php echo esc_attr($transparent_bg ? 'true' : 'false'); ?>">
             <div id="root" class="lifesmart-calculator-root">
                 <!-- React app will be rendered here -->
                 <div class="lifesmart-calculator-loading">
