@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { FaCreditCard } from 'react-icons/fa';
+import { IoCheckmark, IoMoon, IoSunny, IoTrendingUp, IoWarning } from 'react-icons/io5';
 import InvestmentChart from './InvestmentChart';
-import { AppConfig } from '../App';
 
 interface CalculatorInputs {
   monthlySpend: number;
@@ -37,7 +38,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
   useEffect(() => {
     // Determine initial dark mode based on config
     let initialDarkMode = false;
-    
+
     if (config.mode === 'dark') {
       initialDarkMode = true;
     } else if (config.mode === 'light') {
@@ -51,7 +52,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
         initialDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
       }
     }
-    
+
     setDarkMode(initialDarkMode);
 
     // Add loaded class after component mounts
@@ -65,7 +66,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
     } else {
       document.documentElement.classList.remove('dark');
     }
-    
+
     // Only save to localStorage if in auto mode
     if (config.mode === 'auto') {
       localStorage.setItem('darkMode', darkMode.toString());
@@ -128,36 +129,26 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                 title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {/* Toggle Circle */}
-                <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ease-in-out transform ${
-                  darkMode ? 'translate-x-7' : 'translate-x-1'
-                }`}>
-                  <div className="flex items-center justify-center h-full w-full">
-                    <div className={`transition-all duration-500 text-sm ${
-                      darkMode ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-                    }`}>
-                      ☀️
-                    </div>
-                    <div className={`absolute transition-all duration-500 text-sm ${
-                      darkMode ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                    }`}>
-                      🌙
-                    </div>
+              <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ease-in-out transform ${
+                darkMode ? 'translate-x-7' : 'translate-x-1'
+              }`}>
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className={`transition-all duration-500 ${
+                    darkMode ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                  }`}>
+                    <IoSunny className="text-yellow-500 text-base" />
+                  </div>
+                  <div className={`absolute transition-all duration-500 ${
+                    darkMode ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  }`}>
+                    <IoMoon className="text-indigo-600 text-base" />
                   </div>
                 </div>
+              </div>
               </button>
             )}
             {config.mode !== 'auto' && <div className="w-16"></div>} {/* Spacer when toggle hidden */}
           </div>
-        </div>
-
-        {/* Investment Chart */}
-        <div className="mb-8">
-          <InvestmentChart
-            monthlyContribution={monthlySavings}
-            annualRate={investmentInputs.returnRate ?? 9}
-            maxYears={investmentInputs.timePeriod ?? 10}
-            darkMode={darkMode}
-          />
         </div>
 
         {/* Main Calculator Layout - Side by Side */}
@@ -172,7 +163,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
             <div className="relative z-10 p-8 xl:p-10">
               <div className="flex items-center mb-8">
                 <div className={`w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mr-4`}>
-                  💳
+                  <FaCreditCard className="text-xl" />
                 </div>
                 <h2 className={`text-2xl font-semibold ${
                   darkMode ? 'text-white' : 'text-gray-900'
@@ -325,7 +316,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
             <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="w-8 h-8 rounded bg-red-600 flex items-center justify-center text-white text-sm mr-3">
-                  ⚠️
+                  <IoWarning className="text-lg" />
                 </div>
                 <div>
                   <h3 className={`text-lg font-semibold ${
@@ -364,7 +355,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
             <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="w-8 h-8 rounded bg-green-600 flex items-center justify-center text-white text-sm mr-3">
-                  ✓
+                  <IoCheckmark className="text-lg" />
                 </div>
                 <div>
                   <h3 className={`text-lg font-semibold ${
@@ -408,7 +399,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
           <div className="p-8">
             <div className="flex items-center mb-6">
               <div className={`w-10 h-10 rounded bg-emerald-600 flex items-center justify-center text-white text-lg mr-4`}>
-                📈
+                <IoTrendingUp className="text-xl" />
               </div>
               <h2 className={`text-2xl font-semibold ${
                 darkMode ? 'text-white' : 'text-gray-900'
@@ -471,6 +462,16 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Investment Chart */}
+        <div className="mt-8">
+          <InvestmentChart
+            monthlyContribution={monthlySavings}
+            annualRate={investmentInputs.returnRate ?? 9}
+            maxYears={investmentInputs.timePeriod ?? 10}
+            darkMode={darkMode}
+          />
         </div>
 
       </div>
