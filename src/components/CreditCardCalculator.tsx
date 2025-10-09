@@ -22,7 +22,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
   // Default values as specified
   const [inputs, setInputs] = useState<CalculatorInputs>({
     monthlySpend: 2000,
-    balanceCarriedPercent: 20,
+    balanceCarriedPercent: 50,
     apr: 23
   });
 
@@ -74,7 +74,9 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
   }, [darkMode, config.mode]);
 
   // Calculations
-  const carriedBalance = inputs.monthlySpend * (inputs.balanceCarriedPercent / 100);
+  // balanceCarriedPercent now represents the percentage PAID OFF
+  const paidOffBalance = inputs.monthlySpend * (inputs.balanceCarriedPercent / 100);
+  const carriedBalance = inputs.monthlySpend - paidOffBalance;
   const annualInterest = carriedBalance * (inputs.apr / 100);
   const monthlySavings = annualInterest / 12;
 
@@ -208,12 +210,12 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                   </div>
                 </div>
 
-                {/* Balance Carried */}
+                {/* Balance Paid Off */}
                 <div className="group/input">
                   <label className={`block text-sm font-medium mb-2 ${
                     darkMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                    Average Balance Carried Forward (%)
+                    Average Balance Paid Off Monthly (%)
                   </label>
                   <div className="flex items-center space-x-4">
                     <span className={`text-sm font-medium ${
@@ -224,6 +226,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                         type="range"
                         min="0"
                         max="100"
+                        step="5"
                         value={inputs.balanceCarriedPercent}
                         onChange={(e) => handleInputChange('balanceCarriedPercent', Number(e.target.value))}
                         className="w-full h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full appearance-none cursor-pointer slider"
@@ -243,20 +246,85 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                       darkMode ? 'text-gray-400' : 'text-gray-500'
                     }`}>100%</span>
                   </div>
+                  <div className={`mt-3 flex items-center justify-between gap-3 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    <div className="flex-1">
+                      <label className={`block text-xs font-medium mb-1 ${
+                        darkMode ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
+                        Or enter exact paid off amount:
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <span className={`text-base ${
+                            darkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`}>$</span>
+                        </div>
+                        <input
+                          type="number"
+                          min="0"
+                          value={paidOffBalance || ''}
+                          onChange={(e) => {
+                            const dollarAmount = e.target.value === '' ? 0 : Number(e.target.value);
+                            // Calculate percentage based on dollar amount
+                            if (inputs.monthlySpend > 0) {
+                              const percentage = Math.round((dollarAmount / inputs.monthlySpend) * 100);
+                              handleInputChange('balanceCarriedPercent', Math.min(100, Math.max(0, percentage)));
+                            } else {
+                              handleInputChange('balanceCarriedPercent', 0);
+                            }
+                          }}
+                          onBlur={(e) => {
+                            if (e.target.value === '' || Number(e.target.value) < 0) {
+                              handleInputChange('balanceCarriedPercent', 0);
+                            } else if (inputs.monthlySpend > 0) {
+                              const dollarAmount = Number(e.target.value);
+                              const percentage = Math.round((dollarAmount / inputs.monthlySpend) * 100);
+                              if (percentage > 100) {
+                                handleInputChange('balanceCarriedPercent', 100);
+                              }
+                            }
+                          }}
+                          className={`w-full pl-8 pr-4 py-2 text-base border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                            darkMode
+                              ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                              : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                          } rounded-md`}
+                          placeholder="1000"
+                        />
+                      </div>
+                    </div>
+                  </div>
                   <div className={`mt-3 p-3 rounded-md ${
                     darkMode ? 'bg-gray-700' : 'bg-gray-50'
                   }`}>
                     <span className={`text-base font-medium ${
                       darkMode ? 'text-gray-200' : 'text-gray-700'
                     }`}>
-                      Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
+                      Average Balance Paid Off: <span className="text-blue-600 dark:text-blue-400 font-semibold">{inputs.balanceCarriedPercent}%</span> =
+                      <span className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
+                        darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
+                      }`}>
+                        ${paidOffBalance.toLocaleString()}
+                      </span>
+                    </span>
+                  </div>
+                  {/* Hidden but still calculated: Balance Carried */}
+                  {/* <div className={`mt-3 p-3 rounded-md ${
+                    darkMode ? 'bg-gray-700' : 'bg-gray-50'
+                  }`}>
+                    <span className={`text-base font-medium ${
+                      darkMode ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
+                      Balance Carried: <span className="text-blue-600 dark:text-blue-400 font-semibold">{100 - inputs.balanceCarriedPercent}%</span> =
                       <span className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
                         darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
                       }`}>
                         ${carriedBalance.toLocaleString()}
                       </span>
                     </span>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* APR */}
@@ -293,7 +361,8 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                 </div>
               </div>
 
-              <div className={`mt-8 pt-6 border-t ${
+              {/* Formula Hidden */}
+              {/* <div className={`mt-8 pt-6 border-t ${
                 darkMode ? 'border-gray-600' : 'border-gray-200'
               }`}>
                 <p className={`text-sm ${
@@ -301,7 +370,7 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                 }`}>
                   Annual interest = (APR/100 ÷ 365) x days carried x carried balance x 12
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -327,16 +396,15 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
                   </span>
                 </div>
               </div>
-              <div className={`space-y-1 text-sm mb-4 ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
+              <div className={`text-xs mb-3 opacity-60 ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
-                <p>Monthly Spend: <span className="font-medium">${inputs.monthlySpend.toLocaleString()}</span></p>
-                <p>Balance Carried: <span className="font-medium">${carriedBalance.toLocaleString()}</span></p>
+                <p>Monthly Spend: ${inputs.monthlySpend.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} | Balance Carried: ${carriedBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
               </div>
               <div className={`text-3xl font-bold ${
                 isAnimating ? 'animate-pulse' : ''
               } text-red-600`}>
-                ${annualInterest.toLocaleString()}
+                ${annualInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
               </div>
               <div className={`text-xs mt-1 ${
                 darkMode ? 'text-gray-400' : 'text-gray-500'
