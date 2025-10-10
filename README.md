@@ -1,57 +1,56 @@
-# 🧮 LifeSmart Calculator
+# LifeSmart Calculator
 
 <div align="center">
 
 ![LifeSmart Calculator](https://img.shields.io/badge/Version-1.0.0-blue.svg)
 ![React](https://img.shields.io/badge/React-19.2.0-61dafb.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-3178c6.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178c6.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.18-38bdf8.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-**Professional financial planning calculator built with modern web technologies**
+**Professional credit card interest and investment calculator built with modern web technologies**
 
-[🚀 Live Demo](https://lifesmart-calculator.com) • [📖 Documentation](docs/) • [🐛 Report Bug](https://github.com/your-username/lifesmart-calculator/issues) • [💡 Request Feature](https://github.com/your-username/lifesmart-calculator/issues)
+[Live Demo](https://lifesmart-calculator.com) • [Documentation](docs/) • [Report Bug](https://github.com/your-username/lifesmart-calculator/issues) • [Request Feature](https://github.com/your-username/lifesmart-calculator/issues)
 
 </div>
 
 ---
 
-## ✨ Features
+## Features
 
-### 🏦 Credit Card Interest Calculator
-- **Smart Interest Calculation**: Calculate annual interest based on monthly spending, balance carried percentage, and APR
-- **Real-time Results**: Instant calculations with live updates
-- **Monthly Savings Display**: See how much you could save by paying in full
-- **Interactive Sliders**: Intuitive controls for easy input adjustment
+### Credit Card Interest Calculator
+- **Balance Paid Off Tracking**: Calculate based on percentage of monthly spending paid off
+- **Real-time Interest Calculation**: Instant calculations showing annual interest costs
+- **SPZero Card Comparison**: Side-by-side comparison between standard credit cards and SPZero's 0% APR offering
+- **Interactive Controls**: Slider with 5% increments or direct dollar amount input
+- **Financial Journey Visualization**: Long-term savings projections over 1, 5, and custom year periods
 
-### 📈 Investment Growth Calculator
-- **Compound Interest Visualization**: Interactive charts showing investment growth over time
-- **Flexible Time Periods**: Calculate growth for 1-50 years
-- **Custom Return Rates**: Support for conservative to aggressive investment strategies
-- **Visual Chart Display**: Beautiful Chart.js visualizations with multiple data series
+### Investment Growth Calculator
+- **Compound Interest Visualization**: Interactive Chart.js charts showing investment growth over time
+- **Flexible Time Periods**: Calculate growth for 1-30 years
+- **Custom Return Rates**: Support for various investment return rate scenarios
+- **Monthly Contribution Tracking**: Visualize how saved interest could grow when invested
 
-### 🎨 Modern UI/UX
-- **Responsive Design**: Perfect on desktop, tablet, and mobile devices
-- **Dark/Light Mode**: Toggle between themes with smooth transitions
-- **Glassmorphism Effects**: Modern, elegant design with backdrop blur effects
-- **Smooth Animations**: Fade-in, float, and glow animations for enhanced user experience
-- **Accessibility First**: WCAG 2.1 AA compliant with keyboard navigation and screen reader support
+### Modern UI/UX
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Dark/Light Mode**: Configurable theme with smooth transitions and purple accent colors
+- **Animated Transitions**: Smooth fade-in and pulse animations on value changes
+- **Accessibility**: Keyboard navigation and ARIA labels for screen readers
+- **Clean Purple Theme**: Cohesive purple color scheme throughout light and dark modes
 
-### ⚡ Performance & Quality
-- **Lightning Fast**: Optimized for Core Web Vitals with <2s load times
-- **PWA Ready**: Progressive Web App capabilities for mobile installation
-- **Type Safe**: Full TypeScript implementation for reliability
-- **SEO Optimized**: Meta tags, sitemap, and structured data
-- **Security Focused**: Input validation, XSS protection, and secure coding practices
+### Performance & Quality
+- **Fast Load Times**: Built with Vite for optimized development and production builds
+- **Type Safe**: Full TypeScript implementation for code reliability
+- **SEO Optimized**: Meta tags, sitemap, and robots.txt included
+- **Input Validation**: Client-side validation with proper error handling
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** 18.0.0 or higher
 - **npm** 8.0.0 or higher
-- **Git** for version control
 
 ### Installation
 
@@ -69,7 +68,7 @@ npm install
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Open [http://localhost:5173](http://localhost:5173) to view the application in development mode.
 
 ### Production Build
 
@@ -77,169 +76,153 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 # Create production build
 npm run build
 
-# Serve production build locally
+# Preview production build locally
+npm run preview
+
+# Serve build directory
 npm run serve
 ```
 
 ---
 
-## 📱 Screenshots
-
-<div align="center">
-
-### Desktop View
-![Desktop Calculator](docs/images/desktop-calculator.png)
-
-### Mobile View
-![Mobile Calculator](docs/images/mobile-calculator.png)
-
-### Dark Mode
-![Dark Mode](docs/images/dark-mode.png)
-
-### Investment Chart
-![Investment Chart](docs/images/investment-chart.png)
-
-</div>
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
-- **React 19.2.0** - Modern React with concurrent features
-- **TypeScript 4.9.5** - Type-safe JavaScript development
+- **React 19.2.0** - Modern React with latest features
+- **TypeScript 5.9.3** - Type-safe JavaScript development
+- **Vite 7.1.9** - Fast build tool and development server
 - **Tailwind CSS 3.4.18** - Utility-first CSS framework
 - **Chart.js 4.5.0** - Interactive data visualization
 - **React Chart.js 2 5.3.0** - React wrapper for Chart.js
+- **React Icons 5.5.0** - Icon library for UI components
 
 ### Development Tools
-- **Create React App 5.0.1** - Zero-configuration React development
+- **Vitest 3.2.4** - Fast unit testing framework
+- **Playwright 1.48.2** - End-to-end testing
 - **ESLint** - Code linting and quality assurance
-- **Prettier** - Code formatting
-- **Jest** - Unit testing framework
-- **React Testing Library** - Component testing utilities
-- **Playwright** - End-to-end testing
+- **Prettier 3.3.3** - Code formatting
+- **TypeScript ESLint 8.46.0** - TypeScript-specific linting rules
 
-### CI/CD & Deployment
-- **GitHub Actions** - Continuous integration and deployment
-- **Vercel** - Primary hosting platform
-- **Netlify** - Alternative hosting option
-- **Docker** - Containerized deployment
+### Deployment
+- **Cloudflare Workers** - Edge computing deployment platform
+- **Wrangler 4.42.1** - Cloudflare Workers CLI
 - **Lighthouse CI** - Performance monitoring
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 lifesmart-calculator/
-├── 📁 public/                 # Static assets
-│   ├── 📄 index.html         # Main HTML template
-│   ├── 📄 manifest.json      # PWA manifest
-│   ├── 📄 robots.txt         # SEO robots file
-│   ├── 📄 sitemap.xml        # SEO sitemap
-│   └── 📁 icons/             # App icons and favicons
-├── 📁 src/                   # Source code
-│   ├── 📁 components/        # React components
-│   │   ├── 📄 CreditCardCalculator.tsx
-│   │   └── 📄 InvestmentChart.tsx
-│   ├── 📁 hooks/             # Custom React hooks
-│   ├── 📁 utils/             # Utility functions
-│   ├── 📁 types/             # TypeScript definitions
-│   ├── 📁 styles/            # Global styles
-│   ├── 📄 App.tsx            # Main app component
-│   └── 📄 index.tsx          # App entry point
-├── 📁 docs/                  # Comprehensive documentation
-│   ├── 📄 api.md             # API documentation
-│   ├── 📄 architecture.md    # Technical architecture
-│   ├── 📄 deployment.md      # Deployment guide
-│   ├── 📄 development.md     # Development guide
-│   ├── 📄 performance.md     # Performance guide
-│   ├── 📄 security.md        # Security guide
-│   ├── 📄 testing.md         # Testing guide
-│   ├── 📄 troubleshooting.md # Troubleshooting guide
-│   └── 📄 user-guide.md      # User manual
-├── 📁 .github/               # GitHub configuration
-│   ├── 📁 workflows/         # CI/CD workflows
-│   ├── 📁 ISSUE_TEMPLATE/    # Issue templates
-│   └── 📄 pull_request_template.md
-├── 📁 scripts/               # Build and utility scripts
-│   └── 📄 update_changelog.py
-├── 📄 package.json           # Dependencies and scripts
-├── 📄 tsconfig.json          # TypeScript configuration
-├── 📄 tailwind.config.js     # Tailwind CSS configuration
-├── 📄 .lighthouserc.json     # Lighthouse CI configuration
-├── 📄 .bundlesizerc.json     # Bundle size monitoring
-├── 📄 playwright.config.js   # E2E testing configuration
-├── 📄 release.sh             # Release automation script
-└── 📄 README.md              # This file
+├── public/                    # Static assets
+│   ├── index.html            # Main HTML template (Vite entry)
+│   ├── manifest.json         # PWA manifest
+│   ├── robots.txt            # SEO robots file
+│   ├── sitemap.xml           # SEO sitemap
+│   ├── favicon.ico           # Favicon
+│   ├── favicon.svg           # SVG favicon
+│   ├── privacy-policy.html   # Privacy policy page
+│   └── terms-of-service.html # Terms of service page
+├── src/                      # Source code
+│   ├── components/           # React components
+│   │   ├── CreditCardCalculator.tsx
+│   │   └── InvestmentChart.tsx
+│   ├── types/                # TypeScript definitions
+│   │   └── svg.d.ts
+│   ├── App.tsx               # Main app component
+│   ├── App.css               # App styles
+│   ├── index.tsx             # App entry point
+│   ├── index.css             # Global styles
+│   └── reportWebVitals.ts    # Performance monitoring
+├── docs/                     # Documentation
+│   ├── api.md
+│   ├── architecture.md
+│   ├── deployment.md
+│   ├── development.md
+│   ├── performance.md
+│   ├── security.md
+│   ├── testing.md
+│   ├── troubleshooting.md
+│   └── user-guide.md
+├── tests/                    # Test files
+│   └── e2e/                  # End-to-end tests
+│       └── calculator.spec.js
+├── scripts/                  # Build and utility scripts
+│   └── update_changelog.py
+├── worker/                   # Cloudflare Workers
+│   └── index.ts
+├── build/                    # Production build output
+├── package.json              # Dependencies and scripts
+├── tsconfig.json             # TypeScript configuration
+├── vite.config.js            # Vite configuration
+├── vitest.config.ts          # Vitest test configuration
+├── tailwind.config.js        # Tailwind CSS configuration
+├── postcss.config.js         # PostCSS configuration
+├── playwright.config.js      # Playwright E2E test configuration
+├── wrangler.jsonc            # Cloudflare Workers configuration
+├── release.sh                # Release automation script
+├── CHANGELOG.md              # Version history
+├── CONTRIBUTING.md           # Contribution guidelines
+├── SECURITY.md               # Security policy
+└── README.md                 # This file
 ```
 
 ---
 
-## 🎯 Usage Examples
+## Calculator Functionality
 
-### Credit Card Interest Calculation
+### Credit Card Parameters
+The calculator accepts three main inputs:
+
+1. **Average Monthly Spending** - Total credit card spending per month
+2. **Average Balance Paid Off Monthly** - Percentage of balance paid off each month (slider moves in 5% increments)
+3. **Annual Percentage Rate (APR)** - Interest rate charged by the credit card
+
+Users can input values either through:
+- Direct numeric input fields
+- Range slider (for balance paid off percentage)
+- Dollar amount input (automatically calculates percentage)
+
+### Calculation Logic
 
 ```typescript
-// Example: Calculate annual interest
-const monthlySpend = 2000;      // $2,000 monthly spending
-const balanceCarried = 50;      // 50% balance carried forward
-const apr = 23;                 // 23% annual percentage rate
+// Balance paid off calculation
+const paidOffBalance = monthlySpend × (balanceCarriedPercent / 100);
 
-// Annual interest = Monthly spend × Balance carried % × APR
-const annualInterest = monthlySpend * (balanceCarried / 100) * (apr / 100);
-// Result: $230 annual interest
+// Balance carried forward
+const carriedBalance = monthlySpend - paidOffBalance;
 
-// Monthly savings = Annual interest ÷ 12
+// Annual interest cost
+const annualInterest = carriedBalance × (apr / 100);
+
+// Monthly savings with 0% APR
 const monthlySavings = annualInterest / 12;
-// Result: $19.17 monthly savings
 ```
 
-### Investment Growth Calculation
-
-```typescript
-// Example: Calculate investment growth
-const monthlyContribution = 1000;  // $1,000 monthly contribution
-const annualRate = 8;              // 8% annual return rate
-const timePeriod = 10;             // 10 years
-
-// Using compound interest formula
-const totalContributions = monthlyContribution * 12 * timePeriod;
-const totalValue = calculateCompoundInterest(monthlyContribution, annualRate, timePeriod);
-const interestEarned = totalValue - totalContributions;
-
-// Results after 10 years:
-// Total contributions: $120,000
-// Interest earned: $11,589
-// Total value: $131,589
-```
+### Investment Growth
+The saved interest amount is then projected as monthly investment contributions with compound interest over time, showing potential wealth accumulation.
 
 ---
 
-## 🧪 Testing
-
-### Test Coverage
-- **Unit Tests**: 80%+ coverage
-- **Integration Tests**: 60%+ coverage
-- **E2E Tests**: 40%+ coverage
-- **Accessibility Tests**: WCAG 2.1 AA compliant
-- **Performance Tests**: Lighthouse score 90+
+## Testing
 
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run unit tests
 npm test
 
-# Run tests with coverage
-npm run test:coverage
+# Run tests with UI
+npm run test:ui
 
-# Run E2E tests
+# Run tests once (no watch mode)
+npm run test:run
+
+# Run end-to-end tests
 npm run test:e2e
 
-# Run accessibility tests
-npm run test:a11y
+# Run E2E tests with UI
+npm run test:e2e:ui
 
 # Run performance tests
 npm run lighthouse
@@ -247,103 +230,85 @@ npm run lighthouse
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
-### Vercel (Recommended)
+### Cloudflare Workers (Recommended)
 
 ```bash
-# Install Vercel CLI
-npm i -g vercel
+# Build and deploy to Cloudflare
+npm run deploy
 
-# Deploy to Vercel
-vercel
-
-# Deploy to production
-vercel --prod
+# Preview deployment
+npm run preview
 ```
 
-### Netlify
+### Static Hosting (Netlify, Vercel, etc.)
 
 ```bash
 # Build the project
 npm run build
 
-# Deploy to Netlify
-npx netlify deploy --prod --dir=build
-```
-
-### Docker
-
-```bash
-# Build Docker image
-docker build -t lifesmart-calculator .
-
-# Run container
-docker run -p 3000:3000 lifesmart-calculator
+# The build/ directory contains static files ready for deployment
 ```
 
 ---
 
-## 📊 Performance Metrics
+## Available Scripts
 
-### Core Web Vitals
-- **First Contentful Paint (FCP)**: < 1.5s
-- **Largest Contentful Paint (LCP)**: < 2.5s
-- **Cumulative Layout Shift (CLS)**: < 0.1
-- **First Input Delay (FID)**: < 100ms
-- **Time to Interactive (TTI)**: < 3.5s
-
-### Bundle Size
-- **Total Bundle**: < 500KB (gzipped)
-- **JavaScript**: < 300KB (gzipped)
-- **CSS**: < 50KB (gzipped)
-
-### Lighthouse Scores
-- **Performance**: 90+
-- **Accessibility**: 95+
-- **Best Practices**: 90+
-- **SEO**: 90+
-
----
-
-## 🔒 Security
-
-### Security Features
-- **Input Validation**: All inputs are validated and sanitized
-- **XSS Protection**: Content Security Policy (CSP) implemented
-- **CSRF Protection**: Cross-site request forgery prevention
-- **Secure Headers**: HTTP security headers configured
-- **Dependency Scanning**: Regular security audits with npm audit
-
-### Security Best Practices
-- No sensitive data stored in localStorage
-- All calculations performed client-side
-- Regular dependency updates
-- Security-focused coding practices
+| Script | Description |
+|--------|-------------|
+| `npm start` | Start Vite development server |
+| `npm run dev` | Start Vite development server (alias) |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm test` | Run Vitest test suite |
+| `npm run test:ui` | Run tests with UI |
+| `npm run test:e2e` | Run Playwright E2E tests |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Fix ESLint issues automatically |
+| `npm run format` | Format code with Prettier |
+| `npm run format:check` | Check code formatting |
+| `npm run type-check` | Run TypeScript type checking |
+| `npm run lighthouse` | Run Lighthouse performance tests |
+| `npm run bundle-analyzer` | Analyze bundle size |
+| `npm run serve` | Serve production build locally |
+| `npm run deploy` | Build and deploy to Cloudflare Workers |
+| `npm run deps:check` | Check for dependency updates |
+| `npm run deps:update` | Update dependencies |
+| `npm run deps:audit` | Run security audit |
+| `npm run clean` | Remove build artifacts |
 
 ---
 
-## 🤝 Contributing
+## Configuration
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+### AppConfig Interface
 
-### Quick Start for Contributors
+The calculator accepts a configuration object to customize behavior:
 
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Make** your changes
-4. **Run** tests: `npm test`
-5. **Commit** your changes: `git commit -m 'Add amazing feature'`
-6. **Push** to the branch: `git push origin feature/amazing-feature`
-7. **Open** a Pull Request
+```typescript
+interface AppConfig {
+  mode: 'auto' | 'light' | 'dark';  // Theme mode
+  transparentBackground: boolean;     // Background transparency
+}
+```
 
-### Development Workflow
+- **mode**: Controls the color theme
+  - `'auto'`: User can toggle, preference saved to localStorage
+  - `'light'`: Forces light mode
+  - `'dark'`: Forces dark mode
+  
+- **transparentBackground**: When `true`, uses transparent background instead of colored background
+
+---
+
+## Development Workflow
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server with hot reload
 npm start
 
 # Run linting
@@ -367,11 +332,11 @@ npm run build
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-Comprehensive documentation is available in the [`docs/`](docs/) directory:
+Comprehensive documentation is available in the `docs/` directory:
 
-- **[API Documentation](docs/api.md)** - Complete API reference
+- **[API Documentation](docs/api.md)** - Component API reference
 - **[Architecture Guide](docs/architecture.md)** - Technical architecture overview
 - **[Deployment Guide](docs/deployment.md)** - Deployment instructions
 - **[Development Guide](docs/development.md)** - Development setup and guidelines
@@ -383,99 +348,75 @@ Comprehensive documentation is available in the [`docs/`](docs/) directory:
 
 ---
 
-## 🛠️ Available Scripts
+## WordPress Plugin
 
-| Script | Description |
-|--------|-------------|
-| `npm start` | Start development server |
-| `npm run build` | Build for production |
-| `npm test` | Run test suite |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint issues |
-| `npm run format` | Format code with Prettier |
-| `npm run type-check` | Run TypeScript type checking |
-| `npm run test:e2e` | Run end-to-end tests |
-| `npm run test:a11y` | Run accessibility tests |
-| `npm run lighthouse` | Run Lighthouse performance tests |
-| `npm run bundle-analyzer` | Analyze bundle size |
-| `npm run serve` | Serve production build locally |
+The calculator can be embedded as a WordPress plugin. See `lifesmart-calculator.php` and `WP-README.md` for WordPress-specific documentation.
+
+Package the plugin using:
+```bash
+./package-wp-plugin.sh
+```
 
 ---
 
-## 🌟 Features in Detail
+## Contributing
 
-### Credit Card Interest Calculator
-- **Real-time Calculations**: Instant updates as you type
-- **Visual Feedback**: Color-coded results and progress indicators
-- **Input Validation**: Smart validation with helpful error messages
-- **Accessibility**: Full keyboard navigation and screen reader support
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-### Investment Growth Calculator
-- **Interactive Charts**: Beautiful Chart.js visualizations
-- **Multiple Data Series**: Principal, interest, and total value tracking
-- **Responsive Design**: Charts adapt to all screen sizes
-- **Export Capabilities**: Save charts as images (coming soon)
+### Quick Start for Contributors
 
-### Modern UI Components
-- **Glassmorphism Design**: Modern backdrop blur effects
-- **Smooth Animations**: Fade-in, float, and glow effects
-- **Dark Mode**: Toggle between light and dark themes
-- **Mobile-First**: Optimized for all device sizes
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Run tests: `npm test`
+5. Run linting: `npm run lint`
+6. Commit your changes: `git commit -m 'Add amazing feature'`
+7. Push to the branch: `git push origin feature/amazing-feature`
+8. Open a Pull Request
 
 ---
 
-## 🔮 Roadmap
+## Security
 
-### Version 1.1 (Coming Soon)
-- [ ] Export charts as images
-- [ ] Save calculations to PDF
-- [ ] Multiple calculation scenarios
-- [ ] Advanced investment options
+Security is important to us. Please see our [Security Policy](SECURITY.md) for reporting vulnerabilities.
 
-### Version 1.2 (Future)
-- [ ] User accounts and data persistence
-- [ ] Calculation history
-- [ ] Custom themes
-- [ ] Mobile app (React Native)
-
-### Version 2.0 (Future)
-- [ ] Backend API integration
-- [ ] Real-time market data
-- [ ] Advanced financial modeling
-- [ ] Collaborative features
+### Security Features
+- Input validation on all user inputs
+- Client-side only calculations (no data sent to servers)
+- No sensitive data stored
+- Regular dependency security audits
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **React Team** - For the amazing React framework
-- **Tailwind CSS Team** - For the utility-first CSS framework
-- **Chart.js Team** - For the powerful charting library
-- **Create React App Team** - For the zero-configuration setup
-- **Contributors** - Thank you to all contributors who help improve this project
+- React Team - For the React framework
+- Tailwind CSS Team - For the utility-first CSS framework
+- Chart.js Team - For the charting library
+- Vite Team - For the fast build tool
+- Cloudflare - For Workers edge computing platform
 
 ---
 
-## 📞 Support
+## Support
 
-- 📧 **Email**: [support@lifesmart-calculator.com](mailto:support@lifesmart-calculator.com)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/your-username/lifesmart-calculator/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/your-username/lifesmart-calculator/discussions)
-- 📖 **Documentation**: [docs/](docs/)
-- 🌐 **Website**: [lifesmart-calculator.com](https://lifesmart-calculator.com)
+- Email: [support@lifesmart-calculator.com](mailto:support@lifesmart-calculator.com)
+- Bug Reports: [GitHub Issues](https://github.com/your-username/lifesmart-calculator/issues)
+- Feature Requests: [GitHub Discussions](https://github.com/your-username/lifesmart-calculator/discussions)
+- Documentation: [docs/](docs/)
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by the LifeSmart Calculator Team**
+**Built by the LifeSmart Calculator Team**
 
-[⭐ Star this repo](https://github.com/your-username/lifesmart-calculator) • [🐛 Report Bug](https://github.com/your-username/lifesmart-calculator/issues) • [💡 Request Feature](https://github.com/your-username/lifesmart-calculator/issues) • [📖 Documentation](docs/)
+[Star this repo](https://github.com/your-username/lifesmart-calculator) • [Report Bug](https://github.com/your-username/lifesmart-calculator/issues) • [Request Feature](https://github.com/your-username/lifesmart-calculator/issues) • [Documentation](docs/)
 
 </div>

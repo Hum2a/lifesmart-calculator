@@ -18,7 +18,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-### [v1.1.0] - 2025-10-08
+### [v1.1.1] - 2025-10-10
+
+### ✨ Added New features and enhancements
+- Add wp plugin `+514`
+- Add wp plugin `+514`
+- Updated wp plugin running from cf `+8665, -6791`
+- Merge branch 'feat/wp-plugin' of https://github.com/lifesmart-financial-literacy/lifesmart-calculator into feat/wp-plugin `+1, -1`
+- Add conclusion card to CreditCardCalculator for total savings overview `+111`
+- Implement Investment Growth Calculator in CreditCardCalculator `+103, -103`
+
+### 🐛 Fixed Bug fixes and improvements
+- Missing github token `+1`
+- Merge pull request #5 from lifesmart-financial-literacy/fix/actions `+1`
+- Update TypeScript module resolution and remove Cloudflare plugin from Vite config `+2, -7`
+
+### 📚 Documentation Documentation updates
+- Update CHANGELOG for v1.1.0 release `+22, -1`
+
+### 🔧 Changed Code refactoring and restructuring
+- Update CreditCardCalculator to improve balance calculations and UI `+81, -13`
+- Enhance CreditCardCalculator UI and formatting `+22, -9`
+
+### 🔧 Changed Maintenance tasks and chores
+- Update dependencies and enhance components with new icons `+57, -41`
+
+**Total Changes:** 13 commits
+
+---
+
+## [v1.1.0] - 2025-10-08
 
 ### ✨ Added New features and enhancements
 - Release v1.0.0: Major updates including new features, enhancements, and documentation improvements. Introduced CreditCardCalculator and InvestmentChart components, added dark mode support, and integrated CI/CD workflows. Comprehensive project configuration with essential files and improved user experience. Total of 11 commits. `+24, -1`
