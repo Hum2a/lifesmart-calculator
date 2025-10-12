@@ -226,11 +226,18 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
   };
 
   return (
-    <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
-      darkMode
-        ? 'bg-gradient-to-br from-indigo-900 to-purple-900 border-indigo-700'
-        : 'bg-white border-gray-200'
-    } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`relative overflow-hidden rounded-lg shadow-lg`}
+      style={{
+        background: darkMode
+          ? 'linear-gradient(to bottom right, #8b3dff, #000)'
+          : 'linear-gradient(to bottom right, #ffffff, #c8a2c8)', // White to lilac gradient
+        border: '1px solid transparent',
+        backgroundImage: darkMode
+          ? 'linear-gradient(to bottom right, #8b3dff, #000), linear-gradient(to bottom right, transparent, transparent 40%)'
+          : 'linear-gradient(to bottom right, #ffffff, #c8a2c8), linear-gradient(to bottom right, transparent, transparent 40%)', // White to lilac gradient for border
+        backgroundOrigin: 'border-box',
+        backgroundClip: 'padding-box, border-box'
+      }}>
       <div className="p-8">
         {/* Title */}
         <div className="text-center mb-8">
@@ -300,7 +307,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         {/* Summary Box matching the design */}
         <div className="mb-8">
           <div className={`p-6 rounded-lg text-center ${
-            darkMode ? 'bg-white text-gray-900' : 'bg-gray-50 text-gray-700'
+            darkMode ? 'bg-white text-gray-900' : 'bg-white text-gray-700'
           }`}>
             <p className="text-base md:text-lg mb-2">
               By switching to <strong>SPZero's 0% APR card</strong>, you could save <strong style={{ color: '#0067f7' }}>${(monthlyContribution * 12 * maxYears).toLocaleString()}</strong> in interest payments over the next {maxYears} years, which if invested, could reach a value of <strong style={{ color: '#0067f7' }}>${finalValue.toLocaleString()}</strong>

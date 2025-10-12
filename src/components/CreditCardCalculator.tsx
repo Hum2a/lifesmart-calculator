@@ -155,13 +155,17 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
 
         {/* Main Calculator Card - Consolidated Design */}
         <div className={`relative overflow-hidden rounded-lg shadow-lg`}
-          style={{
-            background: 'linear-gradient(to bottom right, #8b3dff, #000)',
-            border: '1px solid transparent',
-            backgroundImage: 'linear-gradient(to bottom right, #8b3dff, #000), linear-gradient(to bottom right, transparent, transparent 40%)',
-            backgroundOrigin: 'border-box',
-            backgroundClip: 'padding-box, border-box'
-          }}>
+      style={{
+        background: darkMode
+          ? 'linear-gradient(to bottom right, #8b3dff, #000)'
+          : 'linear-gradient(to bottom right, #ffffff, #c8a2c8)', // White to lilac gradient
+        border: '1px solid transparent',
+        backgroundImage: darkMode
+          ? 'linear-gradient(to bottom right, #8b3dff, #000), linear-gradient(to bottom right, transparent, transparent 40%)'
+          : 'linear-gradient(to bottom right, #ffffff, #c8a2c8), linear-gradient(to bottom right, transparent, transparent 40%)', // White to lilac gradient for border
+        backgroundOrigin: 'border-box',
+        backgroundClip: 'padding-box, border-box'
+      }}>
           <div className="p-8">
             <div className="flex lg:flex-row flex-col gap-8 lg:items-center items-start">
               {/* Left Section - Calculator Inputs */}
@@ -357,11 +361,18 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
         </div>
 
         {/* Conclusion Card - Total Savings Over Time */}
-        <div className={`relative overflow-hidden rounded-lg shadow-lg border mt-8 ${
-          darkMode
-            ? 'bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border-purple-700/50'
-            : 'bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200'
-        }`}>
+        <div className={`relative overflow-hidden rounded-lg shadow-lg mt-8`}
+          style={{
+            background: darkMode
+              ? 'linear-gradient(to bottom right, #8b3dff, #000)'
+              : 'linear-gradient(to bottom right, #ffffff, #c8a2c8)', // White to lilac gradient
+            border: '1px solid transparent',
+            backgroundImage: darkMode
+              ? 'linear-gradient(to bottom right, #8b3dff, #000), linear-gradient(to bottom right, transparent, transparent 40%)'
+              : 'linear-gradient(to bottom right, #ffffff, #c8a2c8), linear-gradient(to bottom right, transparent, transparent 40%)', // White to lilac gradient for border
+            backgroundOrigin: 'border-box',
+            backgroundClip: 'padding-box, border-box'
+          }}>
           <div className="p-8">
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-white text-3xl mb-4 shadow-lg">
