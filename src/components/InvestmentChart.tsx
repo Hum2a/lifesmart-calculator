@@ -11,9 +11,7 @@ import {
 } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FaMoneyBillWave } from 'react-icons/fa';
-import { IoMdStats } from 'react-icons/io';
-import { IoStatsChart, IoTrendingUp, IoWarning } from 'react-icons/io5';
+import { IoWarning } from 'react-icons/io5';
 
 // Register Chart.js components
 ChartJS.register(
@@ -27,18 +25,27 @@ ChartJS.register(
   Filler
 );
 
+interface InvestmentInputs {
+  timePeriod: number | null;
+  returnRate: number | null;
+}
+
 interface InvestmentChartProps {
   monthlyContribution: number;
   annualRate: number;
   maxYears?: number;
   darkMode?: boolean;
+  investmentInputs?: InvestmentInputs;
+  onInvestmentChange?: (field: keyof InvestmentInputs, value: number | null) => void;
 }
 
 const InvestmentChart: React.FC<InvestmentChartProps> = ({
   monthlyContribution,
   annualRate,
   maxYears = 10,
-  darkMode = false
+  darkMode = false,
+  investmentInputs,
+  onInvestmentChange
 }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -86,16 +93,16 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
       {
         label: 'Investment Value',
         data,
-        borderColor: 'rgb(16, 185, 129)',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-        borderWidth: 3,
-        pointBackgroundColor: 'rgb(16, 185, 129)',
+        borderColor: '#0067f7', // Match the blue color from the bottom text
+        backgroundColor: 'rgba(0, 103, 247, 0.1)',
+        borderWidth: 2,
+        pointBackgroundColor: '#0067f7',
         pointBorderColor: '#ffffff',
-        pointBorderWidth: 3,
-        pointRadius: 6,
-        pointHoverRadius: 10,
-        fill: true,
-        tension: 0.4,
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: false, // Remove fill for cleaner look
+        tension: 0.2, // Less curve for simpler appearance
       },
     ],
   };
@@ -115,31 +122,23 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
           usePointStyle: true,
           padding: 20,
           font: {
-            size: 14,
-            weight: 'bold' as const,
+            size: 12,
+            weight: 'normal' as const,
           },
+          color: darkMode ? '#ffffff' : '#374151',
         },
       },
       title: {
-        display: true,
-        text: `Investment Growth Projection - ${maxYears} Years`,
-        font: {
-          size: 16,
-          weight: 'bold' as const,
-        },
-        color: '#374151',
-        padding: {
-          bottom: 20,
-        },
+        display: false,
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: 'rgba(255, 255, 255, 0.2)',
+        backgroundColor: darkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.95)',
+        titleColor: darkMode ? '#ffffff' : '#000000',
+        bodyColor: darkMode ? '#ffffff' : '#000000',
+        borderColor: darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
         borderWidth: 1,
-        cornerRadius: 12,
-        displayColors: true,
+        cornerRadius: 8,
+        displayColors: false,
         callbacks: {
           title: (context: any) => {
             if (context && context.length > 0 && context[0]) {
@@ -148,19 +147,8 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
             return 'Investment Data';
           },
           label: (context: any) => {
-            const datasetLabel = context.dataset.label;
             const value = context.parsed.y;
-            return `${datasetLabel}: $${value.toLocaleString()}`;
-          },
-          afterLabel: (context: any) => {
-            if (context && context.length > 0 && context[0]) {
-              const year = parseInt(context[0].label);
-              const invested = totalInvested[year] || 0;
-              const value = data[year] || 0;
-              const gains = value - invested;
-              return `Gains: $${gains.toLocaleString()}`;
-            }
-            return '';
+            return `Investment Value: $${value.toLocaleString()}`;
           },
         },
       },
@@ -172,47 +160,54 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
           display: true,
           text: 'Years',
           font: {
-            size: 16,
-            weight: 'bold' as const,
-          },
-          color: '#6B7280',
-        },
-        grid: {
-          display: true,
-          color: 'rgba(0, 0, 0, 0.05)',
-        },
-        ticks: {
-          color: '#6B7280',
-          font: {
             size: 12,
             weight: 'normal' as const,
           },
+          color: darkMode ? 'rgba(255, 255, 255, 0.7)' : '#6B7280',
+        },
+        grid: {
+          display: false, // Hide vertical grid lines
+          drawBorder: false,
+        },
+        ticks: {
+          color: darkMode ? 'rgba(255, 255, 255, 0.7)' : '#6B7280',
+          font: {
+            size: 10,
+            weight: 'normal' as const,
+          },
+        },
+        border: {
+          display: false,
         },
       },
       y: {
         display: true,
         title: {
           display: true,
-          text: 'Investment Value ($)',
+          text: 'Investment Value $',
           font: {
-            size: 16,
-            weight: 'bold' as const,
+            size: 12,
+            weight: 'normal' as const,
           },
-          color: '#6B7280',
+          color: darkMode ? 'rgba(255, 255, 255, 0.7)' : '#6B7280',
         },
         grid: {
           display: true,
-          color: 'rgba(0, 0, 0, 0.05)',
+          color: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+          drawBorder: false,
         },
         ticks: {
-          color: '#6B7280',
+          color: darkMode ? 'rgba(255, 255, 255, 0.7)' : '#6B7280',
           font: {
-            size: 12,
+            size: 10,
             weight: 'normal' as const,
           },
           callback: function(value: any) {
             return '$' + value.toLocaleString();
           },
+        },
+        border: {
+          display: false,
         },
         beginAtZero: true,
       },
@@ -223,40 +218,77 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
     },
     elements: {
       point: {
-        hoverBackgroundColor: '#10B981',
+        hoverBackgroundColor: '#3B82F6',
         hoverBorderColor: '#ffffff',
-        hoverBorderWidth: 4,
+        hoverBorderWidth: 2,
       },
     },
   };
 
   return (
     <div className={`relative overflow-hidden rounded-lg shadow-lg border ${
-      isLoaded ? 'opacity-100' : 'opacity-0'
-    }`}>
+      darkMode
+        ? 'bg-gradient-to-br from-indigo-900 to-purple-900 border-indigo-700'
+        : 'bg-white border-gray-200'
+    } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
       <div className="p-8">
-        <div className="flex items-center mb-6">
-          <div className="w-10 h-10 rounded bg-emerald-600 flex items-center justify-center text-white text-lg mr-4">
-            <IoTrendingUp className="text-xl" />
-          </div>
-          <div>
-            <h2 className={`text-2xl font-semibold mb-2 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Investment Growth Analysis
-            </h2>
-            <p className={`text-base ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              Projected growth investing{' '}
-              <span className="font-semibold text-emerald-600">
-                ${(monthlyContribution * 12).toLocaleString()} annually (${monthlyContribution.toFixed(2)}/month)
-              </span>{' '}
-              at{' '}
-              <span className="font-semibold text-teal-600">{annualRate}% annual return</span>
-            </p>
-          </div>
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h2 className={`text-2xl md:text-3xl font-semibold mb-6 ${
+            darkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Let's imagine you put that saved money into an investment portfolio for the next ten years
+          </h2>
         </div>
+
+        {/* Input fields side by side */}
+        {investmentInputs && onInvestmentChange && (
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="group/input">
+              <label className={`block text-sm font-medium mb-2 ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Investment Time Period (Years)
+              </label>
+              <input
+                type="number"
+                value={investmentInputs.timePeriod || ''}
+                onChange={(e) => {
+                  const value = e.target.value === '' ? null : Number(e.target.value);
+                  onInvestmentChange('timePeriod', value);
+                }}
+                className="w-full px-4 py-3 text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                min="1"
+                max="30"
+                placeholder="10"
+                aria-label="Investment time period in years"
+                title="Enter the number of years for investment growth"
+              />
+            </div>
+            <div className="group/input">
+              <label className={`block text-sm font-medium mb-2 ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Expected Annual Return Rate (%)
+              </label>
+              <input
+                type="number"
+                value={investmentInputs.returnRate || ''}
+                onChange={(e) => {
+                  const value = e.target.value === '' ? null : Number(e.target.value);
+                  onInvestmentChange('returnRate', value);
+                }}
+                className="w-full px-4 py-3 text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                min="0"
+                max="20"
+                step="0.1"
+                placeholder="9"
+                aria-label="Annual return rate percentage"
+                title="Enter the expected annual return rate as a percentage"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Chart Container */}
         <div className="relative h-96 w-full mb-8">
@@ -265,101 +297,27 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
           </div>
         </div>
 
-        {/* Key Metrics Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-10 h-10 rounded bg-blue-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
-              <FaMoneyBillWave className="text-xl" />
-            </div>
-            <div className="text-2xl font-bold text-blue-600 mb-2">
-              ${finalInvested.toLocaleString()}
-            </div>
-            <div className="text-sm font-medium text-gray-700 mb-1">Total Invested</div>
-            <div className="text-xs text-gray-500">
-              Over {maxYears} years
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-10 h-10 rounded bg-green-600 flex items-center justify-center text-white text-lg mx-auto mb-3">
-              <IoStatsChart className="text-xl" />
-            </div>
-            <div className="text-2xl font-bold text-green-600 mb-2">
-              ${finalValue.toLocaleString()}
-            </div>
-            <div className="text-sm font-medium text-gray-700 mb-1">Final Value</div>
-            <div className="text-xs text-gray-500">
-              After {maxYears} years
-            </div>
-          </div>
-        </div>
-
-        {/* ROI and Growth Stats */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-1">Return on Investment</h4>
-                <p className="text-gray-600">
-                  Total return: <span className="font-bold text-xl">
-                    {finalInvested > 0 ? ((totalGains / finalInvested) * 100).toFixed(1) : '0'}%
-                  </span> over {maxYears} years
-                </p>
-              </div>
-              <div className="text-2xl"><IoMdStats /></div>
-            </div>
-          </div>
-
-          <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-1">Annual Growth Rate</h4>
-                <p className="text-gray-600">
-                  Expected <span className="font-bold text-xl">
-                    {annualRate}%
-                  </span> annual return
-                </p>
-              </div>
-              <div className="text-2xl"><IoStatsChart /></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Year-by-Year Breakdown */}
+        {/* Summary Box matching the design */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Year-by-Year Breakdown</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {[5, 10, 15, 20, 25].filter(year => year <= maxYears).map((year, index) => {
-              const yearValue = data[year] || 0;
-              const yearInvested = totalInvested[year] || 0;
-              const yearGains = yearValue - yearInvested;
-              return (
-                <div key={year} className="p-4 rounded-lg bg-gray-50 border border-gray-200 text-center">
-                  <div className="text-sm font-semibold text-gray-900 mb-1">Year {year}</div>
-                  <div className="text-lg font-bold text-emerald-600 mb-1">
-                    ${yearValue.toLocaleString()}
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    +${yearGains.toLocaleString()} gains
-                  </div>
-                </div>
-              );
-            })}
+          <div className={`p-6 rounded-lg text-center ${
+            darkMode ? 'bg-white text-gray-900' : 'bg-gray-50 text-gray-700'
+          }`}>
+            <p className="text-base md:text-lg mb-2">
+              By switching to <strong>SPZero's 0% APR card</strong>, you could save <strong style={{ color: '#0067f7' }}>${(monthlyContribution * 12 * maxYears).toLocaleString()}</strong> in interest payments over the next {maxYears} years, which if invested, could reach a value of <strong style={{ color: '#0067f7' }}>${finalValue.toLocaleString()}</strong>
+            </p>
           </div>
         </div>
 
         {/* Disclaimer */}
-        <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <div className="flex items-start">
-            <div className="text-lg mr-3"><IoWarning className="text-yellow-600" /></div>
-            <div>
-              <h4 className="font-semibold text-yellow-900 mb-2">Important Disclaimer</h4>
-              <p className="text-sm text-yellow-800 leading-relaxed">
-                This is a simplified calculation for educational purposes. Assumes monthly contributions with {annualRate}% annual return, compounded monthly.
-                Actual investment returns may vary significantly. Past performance does not guarantee future results.
-                Consider consulting with a financial advisor before making investment decisions. This tool is not financial advice.
-              </p>
-            </div>
+        <div className={`flex items-start ${darkMode ? 'text-white' : 'text-gray-600'}`}>
+          <IoWarning className="text-yellow-500 text-lg mr-2 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-bold text-sm mb-1">Important Disclaimer</p>
+            <p className="text-xs leading-relaxed">
+              This is a simplified calculation for educational purposes. Assumes monthly contributions with {annualRate}% annual return, compounded monthly.
+              Actual investment returns may vary significantly. Past performance does not guarantee future results.
+              Consider consulting with a financial advisor before making investment decisions. This tool is not financial advice.
+            </p>
           </div>
         </div>
       </div>

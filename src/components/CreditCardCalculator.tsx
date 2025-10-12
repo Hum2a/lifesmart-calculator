@@ -344,86 +344,15 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
           </div>
         </div>
 
-        {/* Investment Calculator */}
-        <div className={`relative overflow-hidden rounded-lg shadow-lg border mt-8 ${
-          darkMode
-            ? 'bg-gradient-to-br from-indigo-900 to-purple-900 border-indigo-700'
-            : 'bg-white border-gray-200'
-        }`}>
-          <div className="p-8">
-            {/* Title matching the design */}
-            <div className="text-center mb-8">
-              <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                Let's imagine you put that saved money into an investment portfolio for the next ten years
-              </h2>
-            </div>
-
-            {/* Input fields side by side */}
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="group/input">
-                <label className={`block text-sm font-medium mb-2 ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Investment Time Period (Years)
-                </label>
-                <input
-                  type="number"
-                  value={investmentInputs.timePeriod || ''}
-                  onChange={(e) => {
-                    const value = e.target.value === '' ? null : Number(e.target.value);
-                    handleInvestmentChange('timePeriod', value);
-                  }}
-                  className={`w-full px-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
-                    darkMode
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                  } rounded-md`}
-                  min="1"
-                  max="30"
-                  placeholder="10"
-                  aria-label="Investment time period in years"
-                  title="Enter the number of years for investment growth"
-                />
-              </div>
-              <div className="group/input">
-                <label className={`block text-sm font-medium mb-2 ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Expected Annual Return Rate (%)
-                </label>
-                <input
-                  type="number"
-                  value={investmentInputs.returnRate || ''}
-                  onChange={(e) => {
-                    const value = e.target.value === '' ? null : Number(e.target.value);
-                    handleInvestmentChange('returnRate', value);
-                  }}
-                  className={`w-full px-4 py-3 text-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
-                    darkMode
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                  } rounded-md`}
-                  min="0"
-                  max="20"
-                  step="0.1"
-                  placeholder="9"
-                  aria-label="Annual return rate percentage"
-                  title="Enter the expected annual return rate as a percentage"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Investment Chart */}
+        {/* Investment Chart with Inputs */}
         <div className="mt-8">
           <InvestmentChart
             monthlyContribution={monthlySavings}
             annualRate={investmentInputs.returnRate ?? 9}
             maxYears={investmentInputs.timePeriod ?? 10}
             darkMode={darkMode}
+            investmentInputs={investmentInputs}
+            onInvestmentChange={handleInvestmentChange}
           />
         </div>
 
