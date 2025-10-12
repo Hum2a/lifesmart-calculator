@@ -238,10 +238,10 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         backgroundOrigin: 'border-box',
         backgroundClip: 'padding-box, border-box'
       }}>
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         {/* Title */}
-        <div className="text-center mb-8">
-          <h2 className={`text-2xl md:text-3xl font-semibold mb-6 ${
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 px-2 ${
             darkMode ? 'text-white' : 'text-gray-900'
           }`}>
             Let's imagine you put that saved money into an investment portfolio for the next ten years
@@ -250,7 +250,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
         {/* Input fields side by side */}
         {investmentInputs && onInvestmentChange && (
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="group/input">
               <label className={`block text-sm font-medium mb-2 ${
                 darkMode ? 'text-gray-300' : 'text-gray-700'
@@ -264,7 +264,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
                   const value = e.target.value === '' ? null : Number(e.target.value);
                   onInvestmentChange('timePeriod', value);
                 }}
-                className="w-full px-4 py-3 text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 min="1"
                 max="30"
                 placeholder="10"
@@ -285,7 +285,7 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
                   const value = e.target.value === '' ? null : Number(e.target.value);
                   onInvestmentChange('returnRate', value);
                 }}
-                className="w-full px-4 py-3 text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg border border-gray-300 text-gray-900 placeholder-gray-500 rounded-md bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 min="0"
                 max="20"
                 step="0.1"
@@ -298,18 +298,18 @@ const InvestmentChart: React.FC<InvestmentChartProps> = ({
         )}
 
         {/* Chart Container */}
-        <div className="relative h-96 w-full mb-8">
+        <div className="relative h-64 sm:h-80 lg:h-96 w-full mb-6 sm:mb-8">
           <div className="relative z-10 h-full">
             <Line data={chartData} options={options} />
           </div>
         </div>
 
         {/* Summary Box matching the design */}
-        <div className="mb-8">
-          <div className={`p-6 rounded-lg text-center ${
+        <div className="mb-6 sm:mb-8">
+          <div className={`p-4 sm:p-6 rounded-lg text-center ${
             darkMode ? 'bg-white text-gray-900' : 'bg-white text-gray-700'
           }`}>
-            <p className="text-base md:text-lg mb-2">
+            <p className="text-sm sm:text-base md:text-lg mb-2">
               By switching to <strong>SPZero's 0% APR card</strong>, you could save <strong style={{ color: '#0067f7' }}>${(monthlyContribution * 12 * maxYears).toLocaleString()}</strong> in interest payments over the next {maxYears} years, which if invested, could reach a value of <strong style={{ color: '#0067f7' }}>${finalValue.toLocaleString()}</strong>
             </p>
           </div>
