@@ -1,6 +1,6 @@
 {
   "name": "lifesmart-calculator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Professional financial and life planning calculator tool built with React, TypeScript, and Tailwind CSS",
   "keywords": [
     "calculator",
