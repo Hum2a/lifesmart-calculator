@@ -3,7 +3,7 @@
  * Plugin Name: LifeSmart Calculator
  * Plugin URI: https://www.smartsessions.co.uk/
  * Description: Interest calculator for SPZero.
- * Version: 0.8.0
+ * Version: 1.0.1
  * Author: LifeSmart
  * License: MIT
  * Text Domain: lifesmart-calculator
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('LIFESMART_CALCULATOR_VERSION', '1.0.0');
+define('LIFESMART_CALCULATOR_VERSION', '1.0.1');
 define('LIFESMART_CALCULATOR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LIFESMART_CALCULATOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('LIFESMART_CALCULATOR_PLUGIN_FILE', __FILE__);
@@ -162,6 +162,9 @@ class LifeSmartCalculator {
      * Enqueue calculator assets
      */
     private function enqueue_calculator_assets() {
+        // Add type="module" attribute filter FIRST, before enqueuing any scripts
+        add_filter('script_loader_tag', array($this, 'add_type_module_attribute'), 10, 3);
+        
         // Enqueue CSS
         wp_enqueue_style(
             'lifesmart-calculator-css',
@@ -181,8 +184,6 @@ class LifeSmartCalculator {
                 $this->asset_config['version'],
                 true
             );
-            // Add type="module" attribute
-            add_filter('script_loader_tag', array($this, 'add_type_module_attribute'), 10, 3);
             $dependencies[] = 'lifesmart-calculator-vendor';
         }
         
