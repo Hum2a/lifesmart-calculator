@@ -3,7 +3,12 @@ export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
-  darkMode: 'class',
+  darkMode: ['class', '[data-theme="dark"]'],
+  important: '#root',
+  corePlugins: {
+    // Disable preflight to prevent global CSS resets
+    preflight: process.env.NODE_ENV === 'development',
+  },
   theme: {
     extend: {
       animation: {
