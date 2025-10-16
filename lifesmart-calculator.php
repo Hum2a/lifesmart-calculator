@@ -3,7 +3,7 @@
  * Plugin Name: LifeSmart Calculator
  * Plugin URI: https://www.smartsessions.co.uk/
  * Description: Interest calculator for SPZero.
- * Version: 1.0.1
+ * Version: 1.0.3
  * Author: LifeSmart
  * License: MIT
  * Text Domain: lifesmart-calculator
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('LIFESMART_CALCULATOR_VERSION', '1.0.1');
+define('LIFESMART_CALCULATOR_VERSION', '1.0.3');
 define('LIFESMART_CALCULATOR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LIFESMART_CALCULATOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('LIFESMART_CALCULATOR_PLUGIN_FILE', __FILE__);
@@ -66,6 +66,8 @@ class LifeSmartCalculator {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_shortcode('lifesmart_calculator', array($this, 'render_shortcode'));
         add_action('wp_head', array($this, 'add_preload_hints'), 1);
+        // Register script filter globally for ACF and dynamic content compatibility
+        add_filter('script_loader_tag', array($this, 'add_type_module_attribute'), 10, 3);
     }
     
     /**
@@ -162,9 +164,6 @@ class LifeSmartCalculator {
      * Enqueue calculator assets
      */
     private function enqueue_calculator_assets() {
-        // Add type="module" attribute filter FIRST, before enqueuing any scripts
-        add_filter('script_loader_tag', array($this, 'add_type_module_attribute'), 10, 3);
-        
         // Enqueue CSS
         wp_enqueue_style(
             'lifesmart-calculator-css',
@@ -218,7 +217,10 @@ class LifeSmartCalculator {
     public function add_type_module_attribute($tag, $handle, $src) {
         // Add type="module" to our calculator scripts
         if (strpos($handle, 'lifesmart-calculator-') === 0) {
-            $tag = str_replace(' src', ' type="module" src', $tag);
+            // Remove any existing type attribute first
+            $tag = preg_replace('/ type=["\'][^"\']*["\']/', '', $tag);
+            // Add type="module" after the opening <script tag
+            $tag = str_replace('<script ', '<script type="module" ', $tag);
         }
         return $tag;
     }
