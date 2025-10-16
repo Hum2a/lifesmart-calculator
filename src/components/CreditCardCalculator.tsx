@@ -73,11 +73,16 @@ const CreditCardCalculator: React.FC<CreditCardCalculatorProps> = ({ config }) =
   }, [config.mode]);
 
   useEffect(() => {
-    // Apply dark mode to document
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    // Apply dark mode only to the plugin container, not the entire document
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      if (darkMode) {
+        rootElement.setAttribute('data-theme', 'dark');
+        rootElement.classList.add('dark');
+      } else {
+        rootElement.setAttribute('data-theme', 'light');
+        rootElement.classList.remove('dark');
+      }
     }
 
     // Only save to localStorage if in auto mode
